@@ -204,9 +204,8 @@ por cada idioma en la lista 'prefijos'"
   )
 
 (define-key menu-x [f8]
-  `(menu-item "Crear versiones"
-	       (crear-versiones-proxy)
-	      )
+  `(menu-item "Crear versiones" crear-versiones-proxy
+	      :help "Crea versiones .tex de todos los idomas selecccionados")
   )
 
 (define-key menu-x [j] '(menu-item "--"))
