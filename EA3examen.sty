@@ -1,0 +1,133 @@
+%  Opciones por defecto.
+
+\DeclareOption{twocolumn}{\twocolumntrue}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{exam}}
+\ProcessOptions
+\Fullpages
+\SectionFont{\Large\sffamily}
+\ContinuousNumbering
+\DefineAnswerWrapper{\textbf{\respuesta}}{}
+\BoldfaceCorrectMultipleChoiceAnswer
+\NumberOfVersions{1}
+\StudentInfoLineSpacing{8pt}
+\clubpenalty=9999
+\widowpenalty=9999
+
+
+%  Para poner el logotipo de la UPV/EHU.
+%  Requiere la fuente upv en el catálogo de las disponibles.
+
+\def\membrete{
+   \font\emblema=upv
+   \font\helvediminuta=phvr8r at 6pt
+   \setlength{\unitlength}{1in}
+   \begin{picture}(7,0.7)(0,0)
+   \put(3.055,0.7){\helvediminuta eman ta zabal zazu}
+   \put(2.7,-0.3){\emblema A}
+   \font\helvegrande=phvr8r at 15pt
+   \put(2.099,-0.5){\helvegrande Universidad}
+   \put(1.81,-0.7){\helvegrande del Pa\'{\i}s Vasco}
+   \put(3.6,-0.5){\helvegrande Euskal Herriko}
+   \put(3.6,-0.7){\helvegrande Unibertsitatea}
+   \end{picture}
+}
+
+\begin{examtop}
+\newpage
+\@@line{\parbox{3.5in}{\classdata \\
+        \examtype, \tipo~\fbox{\textsf{\arabic{version}}}}
+        \hfill
+        \parbox{3.5in}{\normalsize \namedata}}
+        \vskip 2cm
+\end{examtop}
+
+
+
+%  Forma y tipografía standard de poner el nombre de la
+%  asignatura
+
+\def\asignatura#1{\class{{\Huge #1 \\}}}
+
+
+%  Variantes idiomáticas
+
+%%%%%%%%%%   Español   %%%%%%%%%%
+
+\addto\extrasspanish{
+\def\comienzobloque{\bigskip\hrule\medskip\noindent
+                   \textsc{Comienzo de un bloque de preguntas}\\ \\
+                   \bigskip}
+\def\finalbloque{\hfill
+                   \textsc{Final de un bloque de preguntas}
+                   \medskip \hrule\bigskip}
+\def\tipo{Tipo:}
+\def\respuesta{Respuesta: }
+\def\namedata{Apellidos: \hrulefill  \\[8pt]
+              Nombre: \hrulefill  \\[8pt]
+              DNI: \hrulefill  \\[8pt]
+              Grupo: \hrulefill\\[8pt]
+              Profesor : \hrulefill }
+\def\tituloresp{Respuestas para el examen de tipo\ }
+\SectionPrefix{Secci\'on \arabic{sectionindex}. \space}
+\def\eleccionmultiple{Preguntas de elecci\'on m\'ultiple}
+\def\problemas{Problemas}
+\begin{keytop}
+\@@line{\hfill \Huge \tituloresp
+         \fbox{\textsf{\arabic{version}}}\hfill}
+        \bigskip
+\end{keytop}
+}
+
+%%%%%%%%%    Inglés    %%%%%%%%%%%
+
+\addto\extrasenglish{
+\def\comienzobloque{\bigskip\hrule\medskip\noindent
+                   \textsc{Start of a question block}\\ \\
+                   \bigskip}
+\def\finalbloque{\hfill
+                   \textsc{End of a question block}
+                   \medskip \hrule\bigskip}
+\def\tipo{Exam version:}
+\def\respuesta{Answer:  }
+\def\namedata{Last name: \hrulefill  \\[8pt]
+              First name: \hrulefill  \\[8pt]
+              DNI: \hrulefill  \\[8pt]
+              Group: \hrulefill\\[8pt]
+              Instructor: \hrulefill }
+\def\tituloresp{Answers for the exam of type\ }
+\SectionPrefix{Section \arabic{sectionindex}. \space}
+\def\eleccionmultiple{Multiple choice questions}
+\def\problemas{Problems}
+\begin{keytop}
+\@@line{\hfill \Huge \tituloresp
+         \fbox{\textsf{\arabic{version}}}\hfill}
+        \bigskip
+\end{keytop}
+}
+
+%%%%%%%%%    Euskera   %%%%%%%%%%%
+
+\addto\extrasbasque{
+\def\comienzobloque{\bigskip\hrule\medskip\noindent
+                   \textsc{Galdera multzo baten hasiera}\\ \\
+                   \bigskip}
+\def\finalbloque{\hfill
+                   \textsc{Galdera multzo baten amaiera}
+                   \medskip \hrule\bigskip}
+\def\tipo{Mota:}
+\def\respuesta{Erantzuna: }
+\def\namedata{Deiturak: \hrulefill  \\[8pt]
+              Izena: \hrulefill  \\[8pt]
+              NAN: \hrulefill  \\[8pt]
+              Taldea: \hrulefill\\[8pt]
+              Irakaslea: \hrulefill }
+\def\tituloresp{motako azterketaren erantzunak\ }
+\SectionPrefix{\arabic{sectionindex}. Atala. \space}
+\def\eleccionmultiple{Aukera anitzeko galderak}
+\def\problemas{Problemak}
+\begin{keytop}
+\@@line{\hfill \Huge
+         \fbox{\textsf{\arabic{version}}}-\tituloresp \hfill}
+        \bigskip
+\end{keytop}
+}
