@@ -1,0 +1,47 @@
+%
+%  Macros, comunes a todos los idiomas (algunos se especializan
+%  más abajo para cada idioma)
+%
+
+
+\def\oh{\frac{1}{2}}
+\def\anylim#1{
+    \ensuremath{\buildrel#1\over\longrightarrow}}
+
+%
+%  Macros idiomáticos utilizables en el texto
+%
+\addto\extrasspanish{
+\def\Y{y}                                   %  Conjunción copulativa "y".
+\def\af{Las demás respuestas son falsas.}   %  Catch all
+\def\Sesgo{\textrm{Sesgo}}
+\def\Var{\textrm{Var}}
+\def\plim{\anylim{p}}                       % convergencia en distribución
+\def\dlim{\anylim{d}}                       % convergencia en probabilidad
+\def\cslim{\anylim{c.s.}}                            % convergencia casi segura
+}
+
+%%%%%%%%%    Inglés    %%%%%%%%%%%
+
+\addto\extrasenglish{
+\def\Y{and}
+\def\af{All other answers are false}        %  Catch all
+\def\Sesgo{\textrm{Bias}}
+\def\Var{\textrm{Var}}
+\def\plim{\anylim{p}}                       % convergencia en distribución
+\def\dlim{\anylim{d}}                       % convergencia en probabilidad
+\def\cslim{\anylim{a.s.}}                            % convergencia casi segura
+}
+
+
+%%%%%%%%%    Euskera   %%%%%%%%%%%
+
+\addto\extrasbasque{
+\def\Y{eta}
+\def\af{ Beste erantzunak faltsuak dira.}   %  Catch all
+\def\Sesgo{\textrm{Alborapena}}
+\def\Var{\textrm{Bar}}
+\def\plim{\anylim{p}}                       % convergencia en distribución
+\def\dlim{\anylim{d}}                       % convergencia en probabilidad
+\def\cslim{\anylim{c.s.}}                            % convergencia casi segura
+}

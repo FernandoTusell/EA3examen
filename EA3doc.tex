@@ -1,0 +1,104 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+% \usepackage{algorithmic}
+% \usepackage{algorithm}
+\usepackage[round]{natbib}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{amsmath}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[english,spanish,basque]{babel}
+\selectlanguage{spanish}
+\usepackage{ifthen}
+\usepackage{afterpage}
+
+\input  variantes.tex
+\def\iS{\selectlanguage{spanish}}%
+\def\iB{\selectlanguage{basque}}%
+\def\iE{\selectlanguage{english}}%
+
+\DeclareGraphicsRule{eps.gz}{epe}{eps.bb}{`gzip -d #1}
+
+% \setkeys{Gin}{width=0.9\textwidth}
+
+\title{Documentación para \texttt{EA3examen}}
+\author{F. Tusell}
+\date{23 marzo 2016}
+
+\begin{document}
+\maketitle
+
+\section{Introducción}
+
+\texttt{EA3examen} es un conjunto de plantillas, macros en \LaTeX y
+funciones en \textsc{ELisp} para Emacs que buscan facilitar la
+producción de exámenes multilingües con múltiples modelos en cada
+idioma. Pueden utilizarse sólo partes, como las definiciones en
+\LaTeX, que pueden emplearse en cualquier documento, examen o no, en uno o en
+varios idiomas.
+
+La producción de exámenes hace uso del paquete \texttt{examdesign}.
+
+\section{Macrodefiniciones}
+
+\subsection{Locuciones frecuentes}
+
+Son expresiones en modo texto que se insertan a veces en una fórmula o
+entre fórmulas, y constituyen los únicos elementos que requerirían
+traducción. El uso de estos macros permite utilizar una única
+expresión para todos los idiomas. Es también frecuente la opción
+\verb|\af| en las preguntas de elección múltiple, para
+proporcionar una respuesta correcta cuando ninguna más lo es.
+
+\begin{table}[htb]
+\centering
+\caption{Locuciones frecuentes}
+\bigskip
+\small\setlength{\tabcolsep}{-22pt}
+\begin{tabular}{@{}r@{}ccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
+\textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
+\midrule
+\verb|\Y|       & \iS\Y     & \iB \Y     & \iE \Y     \\
+\verb|\Sesgo|   & \iS\Sesgo & \iB \Sesgo & \iE \Sesgo \\
+\verb|\Var|     & \iS\Var   & \iB \Var   & \iE \Var   \\[1mm]
+\verb|\af|      & \iS\parbox[c]{1.25in}{\af}  & \iB  \parbox[c]{1.25in}{\af}  & \iE \parbox[c]{1.25in}{\af}   \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+\section{Notación matemática}
+
+\subsection{Límites}
+
+Un macro general, \verb|\anylim{texto}| sitúa ``texto'' sobre una flecha
+hacia la derecha. Hay especializaciones para límites en distribución,
+probabilidad y casi seguros (o ``con probabilidad unitaria'').
+
+
+\begin{table}[htb]
+\centering
+\caption{Límites probabilisticos}
+\bigskip
+\small\setlength{\tabcolsep}{-2pt}
+\begin{tabular}{@{}r@{}ccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
+\textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
+\midrule
+\verb|\anylim{texto}|       & \iS\anylim{texto}  & \iB\anylim{texto}   & \iE\anylim{texto}    \\
+\verb|\dlim|    & \iS\dlim  & \iB \dlim  & \iE \dlim \\
+\verb|\plim|    & \iS\plim  & \iB \plim  & \iE \plim \\
+\verb|\cslim|   & \iS\cslim & \iB \cslim & \iE \cslim \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+\end{document}
