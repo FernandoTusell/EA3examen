@@ -12,6 +12,7 @@
 \usepackage{bm}
 \usepackage{lmodern}
 \usepackage{microtype}
+\usepackage{makeidx}
 \usepackage[english,spanish,basque]{babel}
 \selectlanguage{spanish}
 \usepackage{ifthen}
@@ -30,6 +31,7 @@
 
 % \setkeys{Gin}{width=0.9\textwidth}
 
+\makeindex
 \title{Documentación para \texttt{EA3examen}}
 % \author{F. Tusell}
 \date{23 marzo 2016}
@@ -40,17 +42,114 @@
 \section{Introducción}
 
 \texttt{EA3examen} es un conjunto de plantillas, macros en \LaTeX{} y
-funciones en \textsc{R} y en \textsc{ELISP} para Emacs que buscan facilitar la
-producción de exámenes multilingües con múltiples modelos en cada
-idioma. Pueden utilizarse sólo partes, como las definiciones en
-\LaTeX, que pueden emplearse en cualquier documento, examen o no, en uno o en
-varios idiomas.
+funciones en \textsc{R} y en \textsc{ELISP} para Emacs que buscan
+facilitar la producción de exámenes multilingües con múltiples modelos
+en cada idioma. Pueden utilizarse sólo partes, como las definiciones
+en \LaTeX, que pueden emplearse en cualquier documento, examen o no,
+en uno o en varios idiomas.
 
 La producción de exámenes hace uso del paquete \texttt{examdesign}.
 
 
 \section{Modus operandi}
 
+El flujo de trabajo se recoge esquemáticamente en la
+Figura~\ref{flujo}, \pageref{flujo}. El usuario prepara el fichero
+maestro alternativamente en formato \texttt{.Rnw} o \texttt{.tex}. El
+primer formato se emplea cuando hay material que requiere ser
+procesado por R (cálculos, tablas estadísticas, gráficas. etc.). Tal
+material se inserta en un fichero nombrado con extensión \texttt{.Rnw}
+en bloques tales como
+\medskip
+
+\noindent\texttt{<{}<>{}>=}\par
+\noindent\texttt{library(MASS)}\par
+\noindent\texttt{@}\par
+\bigskip
+
+\noindent en que los delimitadores \texttt{<{}<>{}>=} y \texttt{@}
+señalan fragmentos de código que se ejecuta e inserta automáticamente
+en un nuevo fichero en formato \LaTeX{} standard. Las variantes
+idiomáticas, por su parte, se codifican señalando las líneas en cada
+idioma con un prefijo, del modo siguiente:
+
+\begin{verbatim}
+ES- Estadística y probabilidad...
+EN- Statistics and probability...
+EU- Estatistika eta probabilitatea...
+\end{verbatim}
+
+Estas líneas se copian tal cual al fichero \texttt{.tex} al procesar
+el fichero \texttt{.Rnw}. Algunas funciones en Emacs ayudan a editar
+el texto variante.
+
+En la etapa posterior, se generan las vesiones para los idiomas que se
+hayan configurado. Un único golpe de tecla en Emacs genera a partir
+del documento precursor tantos otros como idiomas, con nombres iguales
+al del precursor prefijados por el idioma (\texttt{EN.fichero.tex},
+\texttt{ES.fichero.tex}, etc. Éstos son tratados como ficheros
+\LaTeX{} ordinarios que son, dando lugar cada uno al documento final
+en un idioma y el formato que se haya escogido, normalmente PDF.
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\tikzstyle{input}=[draw, fill=red!20, text width=5em,
+    text centered, minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{output}=[draw, fill=blue!20, text width=5em,
+    text centered, minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{ba} = [input, text width=5em, fill=blue!20,
+    minimum height=3em, rounded corners, drop shadow]
+\def\blockdist{3.3}
+\def\edgedist{2.5}
+\def\interblock{2.4}
+
+\begin{figure}
+\selectlanguage{spanish}
+\caption{Proceso de generación de documentos con
+  \texttt{EA3examen}. El usuario genera uno de los dos ficheros en
+  color salmón, mientras que los ficheros en color lavanda se generan
+  automáticamente.}
+\bigskip\bigskip
+\label{flujo}
+
+\begin{tikzpicture}[>=triangle 60]
+\node (ba) [ba]  {\LaTeX\\ \texttt{.tex}};
+\path (ba.west)+(-\interblock, 1.5) node (rnw) [input] {Sweave\\ \texttt{.Rnw}};
+\path (ba.west)+(-\interblock,-1.5) node (tex) [input] {\LaTeX\\ \texttt{.tex}};
+\path (ba.east)+( \interblock, 1.5) node (EN) [output] {EN \\ \texttt{.tex}};
+\path (ba.east)+( \interblock, 0.0) node (ES) [output] {ES \\ \texttt{.tex}};
+\path (ba.east)+( \interblock,-1.5) node (EU) [output] {EU \\ \texttt{.tex}};
+\path (EN.east)+( \interblock, 0.0) node (ENpdf) [output] {EN \\ \texttt{.pdf}};
+\path (ES.east)+( \interblock, 0.0) node (ESpdf) [output] {ES \\ \texttt{.pdf}};
+\path (EU.east)+( \interblock, 0.0) node (EUpdf) [output] {EU \\ \texttt{.pdf}};
+
+
+\path [draw, ->] (rnw.east) -- node [above] {}  (ba.175) ;
+\path [draw, ->] (tex.east) -- node [above] {}  (ba.185);
+\path [draw, ->] (ba.east)  -- node [left] {}  (EN.180);
+\path [draw, ->] (ba.east)  -- node [above] {}  (ES.180);
+\path [draw, ->] (ba.east)  -- node [above] {}  (EU.180);
+\path [draw, ->] (EN.east)  -- node [above] {}  (ENpdf.180);
+\path [draw, ->] (ES.east)  -- node [above] {}  (ESpdf.180);
+\path [draw, ->] (EU.east)  -- node [above] {}  (EUpdf.180);
+
+
+%     \path (ba.south) +(1.5,-\blockdist) node (asrs) {Proceso generación exámenes};
+    %  \begin{pgfonlayer}{background}
+    %      \path (rnw.west |- rnw.north)+(-0.5,0.3) node (a) {};
+    %      \path (ba.south -| ba.east)+(+0.5,-0.3) node (b) {};
+    %      \path (EUpdf.east |- asrs.east)+(+0.5,-0.5) node (c) {};
+
+    %     \path[fill=yellow!20,rounded corners, draw=black!50] %  dashed]
+    %         (a) rectangle (c);
+    %     \path (rnw.north west)+(-0.2,0.2) node (a) {};
+    % \end{pgfonlayer}
+
+\end{tikzpicture}
+\bigskip
+\end{figure}
 
 \section{Macrodefiniciones}
 
@@ -139,13 +238,19 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \midrule
 \verb|\f{x}|       & \iS\f{x}  & \iB\f{x}   & \iE\f{x}   \\
 \verb|\F{x}|       & \iS\F{x}  & \iB\F{x}   & \iE\F{x}   \\
-\verb|\char{x}|    & \iS\char{x}  & \iB\char{x}   & \iE\char{x}   \\
+\verb|\charf{x}|    & \iS\charf{x}  & \iB\charf{x}   & \iE\charf{x}   \\
 \verb|\momg{x}|    & \iS\momg{x}  & \iB\momg{x}   & \iE\momg{x}   \\
 \verb|\ecm{\hat\theta}| & \iS\ecm{\hat{\theta}} & \iB\ecm{\hat{\theta}} & \iE\ecm{\hat{\theta}} \\
 \bottomrule
 \end{tabular}
 \normalsize
 \end{table}
+
+\index{macros!ecm@\texttt{ecm}}
+\index{macros!momg@\texttt{momg}}
+\index{macros!charf@\texttt{charf}}
+\index{macros!f@\texttt{f}}
+% \index{macros!F@\texttt{F}\;[\f{x}]}
 
 \paragraph{Ejemplos de uso.} Como argumento de \verb|ecm| se pueden
 insertar cualesquiera estimadores de los definidos en la
@@ -191,60 +296,10 @@ probabilidad y casi seguros (o ``con probabilidad unitaria'').
 \normalsize
 \end{table}
 
-\pgfdeclarelayer{background}
-\pgfdeclarelayer{foreground}
-\pgfsetlayers{background,main,foreground}
 
-\tikzstyle{input}=[draw, fill=red!20, text width=5em,
-    text centered, minimum height=3em, rounded corners, drop shadow]
-\tikzstyle{output}=[draw, fill=blue!20, text width=5em,
-    text centered, minimum height=3em, rounded corners, drop shadow]
-\tikzstyle{ba} = [input, text width=5em, fill=blue!20,
-    minimum height=3em, rounded corners, drop shadow]
-\def\blockdist{3.3}
-\def\edgedist{2.5}
-\def\interblock{2.4}
+\newpage
 
-\begin{figure}
-\caption{Proceso de generación de documentos con \texttt{EA3examen}}
-\bigskip\bigskip
-
-\begin{tikzpicture}
-\node (ba) [ba]  {\LaTeX\\ \texttt{.tex}};
-\path (ba.west)+(-\interblock, 1.5) node (rnw) [input] {Sweave\\ \texttt{.Rnw}};
-\path (ba.west)+(-\interblock,-1.5) node (tex) [input] {\LaTeX\\ \texttt{.tex}};
-\path (ba.east)+( \interblock, 1.5) node (EN) [output] {EN \\ \texttt{.tex}};
-\path (ba.east)+( \interblock, 0.0) node (ES) [output] {ES \\ \texttt{.tex}};
-\path (ba.east)+( \interblock,-1.5) node (EU) [output] {EU \\ \texttt{.tex}};
-\path (EN.east)+( \interblock, 0.0) node (ENpdf) [output] {EN \\ \texttt{.pdf}};
-\path (ES.east)+( \interblock, 0.0) node (ESpdf) [output] {ES \\ \texttt{.pdf}};
-\path (EU.east)+( \interblock, 0.0) node (EUpdf) [output] {EU \\ \texttt{.pdf}};
-
-
-\path [draw, ->] (rnw.east) -- node [above] {}  (ba.175) ;
-\path [draw, ->] (tex.east) -- node [above] {}  (ba.185);
-\path [draw, ->] (ba.east)  -- node [left] {}  (EN.180);
-\path [draw, ->] (ba.east)  -- node [above] {}  (ES.180);
-\path [draw, ->] (ba.east)  -- node [above] {}  (EU.180);
-\path [draw, ->] (EN.east)  -- node [above] {}  (ENpdf.180);
-\path [draw, ->] (ES.east)  -- node [above] {}  (ESpdf.180);
-\path [draw, ->] (EU.east)  -- node [above] {}  (EUpdf.180);
-
-
-%     \path (ba.south) +(1.5,-\blockdist) node (asrs) {Proceso generación exámenes};
-    %  \begin{pgfonlayer}{background}
-    %      \path (rnw.west |- rnw.north)+(-0.5,0.3) node (a) {};
-    %      \path (ba.south -| ba.east)+(+0.5,-0.3) node (b) {};
-    %      \path (EUpdf.east |- asrs.east)+(+0.5,-0.5) node (c) {};
-
-    %     \path[fill=yellow!20,rounded corners, draw=black!50] %  dashed]
-    %         (a) rectangle (c);
-    %     \path (rnw.north west)+(-0.2,0.2) node (a) {};
-    % \end{pgfonlayer}
-
-\end{tikzpicture}
-\end{figure}
-
+\printindex
 
 
 \end{document}
