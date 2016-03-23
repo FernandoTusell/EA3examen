@@ -2,9 +2,15 @@
 %  Macros, comunes a todos los idiomas (algunos se especializan
 %  más abajo para cada idioma)
 %
-
-
-\def\oh{\frac{1}{2}}
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+\def\oh{\ensuremath{\frac{1}{2}}}
+\def\rdpi{\ensuremath{\sqrt{2\pi}}}
+\def\est#1#2{\ensuremath{\hat{#1}_{\textrm{#2}}}}
+\def\f#1{\ensuremath{f_{\uppercase{#1}}(#1)}}
+\def\F#1{\ensuremath{F_{\uppercase{#1}}(#1)}}
+\def\char#1{\ensuremath{\psi_{\uppercase{#1}}(u)}}
+\def\momg#1{\ensuremath{\varphi_{\uppercase{#1}}(u)}}
 \def\anylim#1{
     \ensuremath{\buildrel#1\over\longrightarrow}}
 
@@ -12,6 +18,9 @@
 %  Macros idiomáticos utilizables en el texto
 %
 \addto\extrasspanish{
+\def\ecm#1{\ensuremath{\textrm{ECM}(#1\normalsize)}}
+\def\emv#1{\est{#1}{MV}}
+\def\emom#1{\est{#1}{M}}
 \def\Y{y}                                   %  Conjunción copulativa "y".
 \def\af{Las demás respuestas son falsas.}   %  Catch all
 \def\Sesgo{\textrm{Sesgo}}
@@ -24,6 +33,9 @@
 %%%%%%%%%    Inglés    %%%%%%%%%%%
 
 \addto\extrasenglish{
+\def\ecm#1{\ensuremath{\textrm{MSE}(#1\normalsize)}}
+\def\emv#1{\est{#1}{MLE}}
+\def\emom#1{\est{#1}{M}}
 \def\Y{and}
 \def\af{All other answers are false}        %  Catch all
 \def\Sesgo{\textrm{Bias}}
@@ -37,6 +49,9 @@
 %%%%%%%%%    Euskera   %%%%%%%%%%%
 
 \addto\extrasbasque{
+\def\ecm#1{\ensuremath{\textrm{ECM}(#1\normalsize)}}
+\def\emv#1{\est{#1}{MV}}
+\def\emom#1{\est{#1}{M}}
 \def\Y{eta}
 \def\af{ Beste erantzunak faltsuak dira.}   %  Catch all
 \def\Sesgo{\textrm{Alborapena}}

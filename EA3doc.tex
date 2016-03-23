@@ -9,14 +9,19 @@
 \usepackage{booktabs}
 \usepackage{dcolumn}
 \usepackage{amsmath}
+\usepackage{bm}
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage[english,spanish,basque]{babel}
 \selectlanguage{spanish}
 \usepackage{ifthen}
-\usepackage{afterpage}
+% \usepackage{afterpage}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,shadows}
 
 \input  variantes.tex
+
+
 \def\iS{\selectlanguage{spanish}}%
 \def\iB{\selectlanguage{basque}}%
 \def\iE{\selectlanguage{english}}%
@@ -26,7 +31,7 @@
 % \setkeys{Gin}{width=0.9\textwidth}
 
 \title{Documentación para \texttt{EA3examen}}
-\author{F. Tusell}
+% \author{F. Tusell}
 \date{23 marzo 2016}
 
 \begin{document}
@@ -34,14 +39,18 @@
 
 \section{Introducción}
 
-\texttt{EA3examen} es un conjunto de plantillas, macros en \LaTeX y
-funciones en \textsc{ELisp} para Emacs que buscan facilitar la
+\texttt{EA3examen} es un conjunto de plantillas, macros en \LaTeX{} y
+funciones en \textsc{R} y en \textsc{ELISP} para Emacs que buscan facilitar la
 producción de exámenes multilingües con múltiples modelos en cada
 idioma. Pueden utilizarse sólo partes, como las definiciones en
 \LaTeX, que pueden emplearse en cualquier documento, examen o no, en uno o en
 varios idiomas.
 
 La producción de exámenes hace uso del paquete \texttt{examdesign}.
+
+
+\section{Modus operandi}
+
 
 \section{Macrodefiniciones}
 
@@ -58,7 +67,7 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \centering
 \caption{Locuciones frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-22pt}
+\small\setlength{\tabcolsep}{-32pt}
 \begin{tabular}{@{}r@{}ccc}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
@@ -74,6 +83,87 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \end{table}
 
 \section{Notación matemática}
+
+\subsection{Constantes}
+
+\begin{table}[htb]
+\centering
+\caption{Constantes frecuentes}
+\bigskip
+\small\setlength{\tabcolsep}{-2pt}
+\begin{tabular}{@{}r@{}ccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
+\textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
+\midrule
+\verb|\oh|       & \iS\oh  & \iB\oh   & \iE\oh    \\[1mm]
+\verb|\rdpi|       & \iS\rdpi  & \iB\rdpi   & \iE\rdpi    \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+
+\subsection{Estimadores}
+\label{estimadores}
+
+\begin{table}[htb]
+\centering
+\caption{Estimadores frecuentes}
+\bigskip
+\small\setlength{\tabcolsep}{-2pt}
+\begin{tabular}{@{}r@{}ccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
+\textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
+\midrule
+\verb|\emv{\theta}|   & \iS\emv{\theta}  & \iB\emv{\theta}   & \iE\emv{\theta}   \\
+\verb|\emom{\theta}|  & \iS\emom{\theta} & \iB\emom{\theta}  & \iE\emom{\theta}   \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+
+\subsection{Funciones y expresiones}
+
+\begin{table}[htb]
+\centering
+\caption{Funciones y expresiones frecuentes}
+\bigskip
+\small\setlength{\tabcolsep}{-12pt}
+\begin{tabular}{@{}r@{}ccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
+\textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
+\midrule
+\verb|\f{x}|       & \iS\f{x}  & \iB\f{x}   & \iE\f{x}   \\
+\verb|\F{x}|       & \iS\F{x}  & \iB\F{x}   & \iE\F{x}   \\
+\verb|\char{x}|    & \iS\char{x}  & \iB\char{x}   & \iE\char{x}   \\
+\verb|\momg{x}|    & \iS\momg{x}  & \iB\momg{x}   & \iE\momg{x}   \\
+\verb|\ecm{\hat\theta}| & \iS\ecm{\hat{\theta}} & \iB\ecm{\hat{\theta}} & \iE\ecm{\hat{\theta}} \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+\paragraph{Ejemplos de uso.} Como argumento de \verb|ecm| se pueden
+insertar cualesquiera estimadores de los definidos en la
+subsección~\ref{estimadores}. Por ejemplo, podemos escribir:
+\bigskip
+
+\selectlanguage{spanish}
+\noindent\begin{tabular}[l]{lp{0.5cm}l}
+El \verb|\ecm{\emv{\theta}}| es$\ldots$  &  & El \ecm{\emv{\theta}}
+es$\ldots$ \\
+\verb|\ecm{\emv{\pi}} = \ecm{\emom{\pi}}| & & $\ecm{\emv{\pi}}
+= \ecm{\emom{\pi}}$ \\
+\verb|\ecm{\hat\pi} = \Sesgo(\hat\pi) +| \\
+\qquad\qquad \verb|\Var(\hat\pi)| & & $\ecm{\hat\pi} =
+  \Sesgo(\hat\pi) + \Var(\hat\pi)$ \\
+\end{tabular}
+
+
 
 \subsection{Límites}
 
@@ -100,5 +190,61 @@ probabilidad y casi seguros (o ``con probabilidad unitaria'').
 \end{tabular}
 \normalsize
 \end{table}
+
+
+% % \selectlanguage{spanish}
+% % \begin{figure}
+% % \caption{Proceso de generación de documentos con \texttt{EA3examen}}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\tikzstyle{input}=[draw, fill=red!20, text width=5em,
+    text centered, minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{output}=[draw, fill=blue!20, text width=5em,
+    text centered, minimum height=3em, rounded corners, drop shadow]
+\tikzstyle{ba} = [input, text width=5em, fill=blue!20,
+    minimum height=3em, rounded corners, drop shadow]
+\def\blockdist{3.3}
+\def\edgedist{2.5}
+\def\interblock{2.4}
+
+\begin{tikzpicture}
+     \node (ba) [ba]  {\LaTeX\\ \texttt{.tex}};
+    \path (ba.west)+(-\interblock, 1.5)  node (rnw) [input] {Sweave\\ \texttt{.Rnw}};
+    \path (ba.west)+(-\interblock,-1.5)  node (tex) [input] {\LaTeX\\ \texttt{.tex}};
+
+    \path (ba.east)+( \interblock, 1.5) node (EN) [output] {EN. \\ \texttt{.tex}};
+    \path (ba.east)+( \interblock, 0.0) node (ES) [output] {ES. \\ \texttt{.tex}};
+    \path (ba.east)+( \interblock,-1.5) node (EU) [output] {EU. \\ \texttt{.tex}};
+    \path (EN.east)+( \interblock, 0.0) node (ENpdf) [output] {EN. \\ \texttt{.pdf}};
+    \path (ES.east)+( \interblock, 0.0) node (ESpdf) [output] {ES. \\ \texttt{.pdf}};
+    \path (EU.east)+( \interblock, 0.0) node (EUpdf) [output] {EU. \\ \texttt{.pdf}};
+
+%     \path [draw, ->] (rnw.east)  -- node [above] {}  (ba.175);
+%     \path [draw, ->] (tex.east)  -- node [above] {}  (ba.185);
+%     \path [draw, ->] (ba.east)   -- node [left] {}  (EN.180);
+%     \path [draw, ->] (ba.east)   -- node [above] {}  (ES.180);
+%     \path [draw, ->] (ba.east)   -- node [above] {}  (EU.180);
+%     \path [draw, ->] (EN.east)   -- node [above] {}  (ENpdf.180);
+%     \path [draw, ->] (ES.east)   -- node [above] {}  (ESpdf.180);
+%     \path [draw, ->] (EU.east)   -- node [above] {}  (EUpdf.180);
+
+
+%     \path (ba.south) +(1.5,-\blockdist) node (asrs) {Proceso generación exámenes};
+
+%     \begin{pgfonlayer}{background}
+%         \path (rnw.west |- rnw.north)+(-0.5,0.3) node (a) {};
+%         \path (ba.south -| ba.east)+(+0.5,-0.3) node (b) {};
+%         \path (EUpdf.east |- asrs.east)+(+0.5,-0.5) node (c) {};
+
+%         \path[fill=yellow!20,rounded corners, draw=black!50] %  dashed]
+%             (a) rectangle (c);
+%         \path (rnw.north west)+(-0.2,0.2) node (a) {};
+%     \end{pgfonlayer}
+
+\end{tikzpicture}
+%\end{figure}
+
 
 \end{document}
