@@ -17,7 +17,7 @@
 \usepackage{ifthen}
 % \usepackage{afterpage}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,shadows}
+\usetikzlibrary{shapes,arrows,shadows,babel}
 
 \input  variantes.tex
 
@@ -191,10 +191,6 @@ probabilidad y casi seguros (o ``con probabilidad unitaria'').
 \normalsize
 \end{table}
 
-
-% % \selectlanguage{spanish}
-% % \begin{figure}
-% % \caption{Proceso de generación de documentos con \texttt{EA3examen}}
 \pgfdeclarelayer{background}
 \pgfdeclarelayer{foreground}
 \pgfsetlayers{background,main,foreground}
@@ -209,42 +205,46 @@ probabilidad y casi seguros (o ``con probabilidad unitaria'').
 \def\edgedist{2.5}
 \def\interblock{2.4}
 
+\begin{figure}
+\caption{Proceso de generación de documentos con \texttt{EA3examen}}
+\bigskip\bigskip
+
 \begin{tikzpicture}
-     \node (ba) [ba]  {\LaTeX\\ \texttt{.tex}};
-    \path (ba.west)+(-\interblock, 1.5)  node (rnw) [input] {Sweave\\ \texttt{.Rnw}};
-    \path (ba.west)+(-\interblock,-1.5)  node (tex) [input] {\LaTeX\\ \texttt{.tex}};
+\node (ba) [ba]  {\LaTeX\\ \texttt{.tex}};
+\path (ba.west)+(-\interblock, 1.5) node (rnw) [input] {Sweave\\ \texttt{.Rnw}};
+\path (ba.west)+(-\interblock,-1.5) node (tex) [input] {\LaTeX\\ \texttt{.tex}};
+\path (ba.east)+( \interblock, 1.5) node (EN) [output] {EN \\ \texttt{.tex}};
+\path (ba.east)+( \interblock, 0.0) node (ES) [output] {ES \\ \texttt{.tex}};
+\path (ba.east)+( \interblock,-1.5) node (EU) [output] {EU \\ \texttt{.tex}};
+\path (EN.east)+( \interblock, 0.0) node (ENpdf) [output] {EN \\ \texttt{.pdf}};
+\path (ES.east)+( \interblock, 0.0) node (ESpdf) [output] {ES \\ \texttt{.pdf}};
+\path (EU.east)+( \interblock, 0.0) node (EUpdf) [output] {EU \\ \texttt{.pdf}};
 
-    \path (ba.east)+( \interblock, 1.5) node (EN) [output] {EN. \\ \texttt{.tex}};
-    \path (ba.east)+( \interblock, 0.0) node (ES) [output] {ES. \\ \texttt{.tex}};
-    \path (ba.east)+( \interblock,-1.5) node (EU) [output] {EU. \\ \texttt{.tex}};
-    \path (EN.east)+( \interblock, 0.0) node (ENpdf) [output] {EN. \\ \texttt{.pdf}};
-    \path (ES.east)+( \interblock, 0.0) node (ESpdf) [output] {ES. \\ \texttt{.pdf}};
-    \path (EU.east)+( \interblock, 0.0) node (EUpdf) [output] {EU. \\ \texttt{.pdf}};
 
-%     \path [draw, ->] (rnw.east)  -- node [above] {}  (ba.175);
-%     \path [draw, ->] (tex.east)  -- node [above] {}  (ba.185);
-%     \path [draw, ->] (ba.east)   -- node [left] {}  (EN.180);
-%     \path [draw, ->] (ba.east)   -- node [above] {}  (ES.180);
-%     \path [draw, ->] (ba.east)   -- node [above] {}  (EU.180);
-%     \path [draw, ->] (EN.east)   -- node [above] {}  (ENpdf.180);
-%     \path [draw, ->] (ES.east)   -- node [above] {}  (ESpdf.180);
-%     \path [draw, ->] (EU.east)   -- node [above] {}  (EUpdf.180);
+\path [draw, ->] (rnw.east) -- node [above] {}  (ba.175) ;
+\path [draw, ->] (tex.east) -- node [above] {}  (ba.185);
+\path [draw, ->] (ba.east)  -- node [left] {}  (EN.180);
+\path [draw, ->] (ba.east)  -- node [above] {}  (ES.180);
+\path [draw, ->] (ba.east)  -- node [above] {}  (EU.180);
+\path [draw, ->] (EN.east)  -- node [above] {}  (ENpdf.180);
+\path [draw, ->] (ES.east)  -- node [above] {}  (ESpdf.180);
+\path [draw, ->] (EU.east)  -- node [above] {}  (EUpdf.180);
 
 
 %     \path (ba.south) +(1.5,-\blockdist) node (asrs) {Proceso generación exámenes};
+    %  \begin{pgfonlayer}{background}
+    %      \path (rnw.west |- rnw.north)+(-0.5,0.3) node (a) {};
+    %      \path (ba.south -| ba.east)+(+0.5,-0.3) node (b) {};
+    %      \path (EUpdf.east |- asrs.east)+(+0.5,-0.5) node (c) {};
 
-%     \begin{pgfonlayer}{background}
-%         \path (rnw.west |- rnw.north)+(-0.5,0.3) node (a) {};
-%         \path (ba.south -| ba.east)+(+0.5,-0.3) node (b) {};
-%         \path (EUpdf.east |- asrs.east)+(+0.5,-0.5) node (c) {};
-
-%         \path[fill=yellow!20,rounded corners, draw=black!50] %  dashed]
-%             (a) rectangle (c);
-%         \path (rnw.north west)+(-0.2,0.2) node (a) {};
-%     \end{pgfonlayer}
+    %     \path[fill=yellow!20,rounded corners, draw=black!50] %  dashed]
+    %         (a) rectangle (c);
+    %     \path (rnw.north west)+(-0.2,0.2) node (a) {};
+    % \end{pgfonlayer}
 
 \end{tikzpicture}
-%\end{figure}
+\end{figure}
+
 
 
 \end{document}
