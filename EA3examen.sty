@@ -48,13 +48,7 @@
 
 \def\asignatura#1{\class{{\Huge #1 \\}}}
 
-%  Límites (plantilla general, a especializar para cada idioma)
-
-\def\anylim#1{
-    \buildrel#1\over\longrightarrow}
-
-
-%  Variantes idiomáticas
+% %  Variantes idiomáticas
 
 %%%%%%%%%%   Español   %%%%%%%%%%
 
@@ -81,19 +75,19 @@
          \fbox{\textsf{\arabic{version}}}\hfill}
         \bigskip
 \end{keytop}
-%
-%  Macros idiomáticos a utilizables en el texto
-%
-\def\Y{y}                                   %  Conjunción copulativa "y".
-\def\af{Las demás respuestas son falsas.}   %  Catch all
-\def\Sesgo{\textrm{Sesgo}}
-\def\Var{\textrm{Var}}
-\def\plim{\anylim{p}}                       % convergencia en distribución
-\def\dlim{\anylim{d}}                       % convergencia en probabilidad
-\def\cslim{c.s.}                            % convergencia casi segura
+% %
+% %  Macros idiomáticos utilizables en el texto
+% %
+% \def\Y{y}                                   %  Conjunción copulativa "y".
+% \def\af{Las demás respuestas son falsas.}   %  Catch all
+% \def\Sesgo{\textrm{Sesgo}}
+% \def\Var{\textrm{Var}}
+% \def\plim{\anylim{p}}                       % convergencia en distribución
+% \def\dlim{\anylim{d}}                       % convergencia en probabilidad
+% \def\cslim{c.s.}                            % convergencia casi segura
 }
 
-%%%%%%%%%    Inglés    %%%%%%%%%%%
+% %%%%%%%%%    Inglés    %%%%%%%%%%%
 
 \addto\extrasenglish{
 \def\comienzobloque{\bigskip\hrule\medskip\noindent
@@ -118,20 +112,20 @@
          \fbox{\textsf{\arabic{version}}}\hfill}
         \bigskip
 \end{keytop}
-%
-%  Macros idiomáticos a utilizables en el texto
-%
-\def\Y{and}
-\def\af{Las demás respuestas son falsas.}   %  Catch all
-\def\Sesgo{\textrm{Bias}}
-\def\Var{\textrm{Var}}
-\def\plim{\anylim{p}}                       % convergencia en distribución
-\def\dlim{\anylim{d}}                       % convergencia en probabilidad
-\def\cslim{a.s.}                            % convergencia casi segura
+% %
+% %  Macros idiomáticos utilizables en el texto
+% %
+% \def\Y{and}
+% \def\af{Las demás respuestas son falsas.}   %  Catch all
+% \def\Sesgo{\textrm{Bias}}
+% \def\Var{\textrm{Var}}
+% \def\plim{\anylim{p}}                       % convergencia en distribución
+% \def\dlim{\anylim{d}}                       % convergencia en probabilidad
+% \def\cslim{a.s.}                            % convergencia casi segura
 }
 
 
-%%%%%%%%%    Euskera   %%%%%%%%%%%
+% %%%%%%%%%    Euskera   %%%%%%%%%%%
 
 \addto\extrasbasque{
 \def\comienzobloque{\bigskip\hrule\medskip\noindent
@@ -156,14 +150,15 @@
          \fbox{\textsf{\arabic{version}}}-\tituloresp \hfill}
         \bigskip
 \end{keytop}
-%
-%  Macros idiomáticos a utilizables en el texto
-%
-\def\Y{eta}
-\def\af{ Beste erantzunak faltsuak dira.}   %  Catch all
-\def\Sesgo{\textrm{Alborapena}}
-\def\Var{\textrm{Bar}}
-\def\plim{\anylim{p}}                       % convergencia en distribución
-\def\dlim{\anylim{d}}                       % convergencia en probabilidad
-\def\cslim{c.s.}                            % convergencia casi segura
+% %
+% %  Macros idiomáticos utilizables en el texto
+% %
+% \def\Y{eta}
+% \def\af{ Beste erantzunak faltsuak dira.}   %  Catch all
+% \def\Sesgo{\textrm{Alborapena}}
+% \def\Var{\textrm{Bar}}
+% \def\plim{\anylim{p}}                       % convergencia en distribución
+% \def\dlim{\anylim{d}}                       % convergencia en probabilidad
+% \def\cslim{c.s.}                            % convergencia casi segura
 }
+\input variantes.tex

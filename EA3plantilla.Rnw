@@ -129,37 +129,7 @@ EU- \hfill\textbf{Ez zabaldu azterketa abisua eman arte!}\par
 EU- \hfill\textbf{Markatu ORAIN zein den zure azterketa-mota erantzunen orrialdean!!}
 \par
 \end{frontmatter}
-%
-%  Algunas abreviaturas cuyo lugar natural es EA3examen.sty, pero que de momento
-%  están aquí
-%
-\def\oh{\frac{1}{2}}                  % Un medio
-\def\Y{                                % Conjunción copulativa 'y'
-EN- and                                  % en los tres idiomas
-ES- y
-EU- eta
-}
-\def\af{
-EN- All other answers are false.}
-ES- Las demás respuestas son falsas.}
-EU- Beste erantzunak faltsuak dira.}
-\def\Sesgo{
-EN- \textrm{Bias}}
-ES- \textrm{Sesgo}}
-EU- \textrm{Alborapena}}
-\def\Var{
-EN- \textrm{Var}}
-ES- \textrm{Var}}
-EU- \textrm{Bar}}
-\def\anylim#1{
-    \buildrel#1\over\longrightarrow}
-\def\plim{\anylim{p}}                    % convergencia en distribución
-\def\dlim{\anylim{d}}                    % convergencia en probabilidad
-\def\cslim{                               % convergencia casi segura
-ES- \anylim{c.s.}
-EN- \anylim{a.s.}
-EU-
-}
+
 \hyphenation{ge-ne-ra-triz}
 \begin{multiplechoice}[title={\eleccionmultiple},resetcounter=yes]
 \begin{question}
