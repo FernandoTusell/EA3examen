@@ -151,6 +151,25 @@ en un idioma y el formato que se haya escogido, normalmente PDF.
 \bigskip
 \end{figure}
 
+\texttt{EA3examen} requiere una instalación razonablemente completa de
+\LaTeX{} incluyendo el paquete \texttt{examdesign} y los siguientes
+ficheros, con expresión de los lugares donde deben instalarse:
+
+\begin{table}[h!]
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Fichero} & \textbf{Ubicación} & \textbf{En Linux, típicamente:} \\
+\midrule
+\texttt{EA3examen.sty} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
+\texttt{variantes.tex} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
+\texttt{EA3examen.el}  & Ficheros ELisp,    & \verb|/usr/local/share/emacs/site-lisp|\\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{table}
+
+\newpage
 \section{Macrodefiniciones}
 
 \subsection{Locuciones frecuentes}
@@ -158,39 +177,50 @@ en un idioma y el formato que se haya escogido, normalmente PDF.
 Son expresiones en modo texto que se insertan a veces en una fórmula o
 entre fórmulas, y constituyen los únicos elementos que requerirían
 traducción. El uso de estos macros permite utilizar una única
-expresión para todos los idiomas. Es también frecuente la opción
+expresión para todos los idiomas. Son frecuentes ``sí'', ``no'',
+``cierto'', ``falso'' y la opción
 \verb|\af| en las preguntas de elección múltiple, para
 proporcionar una respuesta correcta cuando ninguna más lo es.
 
-\begin{table}[htb]
+\begin{table}[h!]
 \centering
 \caption{Locuciones frecuentes}
 \bigskip
 \small\setlength{\tabcolsep}{-32pt}
-\begin{tabular}{@{}r@{}ccc}
+\begin{tabular}{@{}l@{\extracolsep{-35pt}}ccc}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
 \midrule
-\verb|\Y|       & \iS\Y     & \iB \Y     & \iE \Y     \\
-\verb|\Sesgo|   & \iS\Sesgo & \iB \Sesgo & \iE \Sesgo \\
-\verb|\Var|     & \iS\Var   & \iB \Var   & \iE \Var   \\[1mm]
-\verb|\af|      & \iS\parbox[c]{1.25in}{\af}  & \iB  \parbox[c]{1.25in}{\af}  & \iE \parbox[c]{1.25in}{\af}   \\
+\verb|\af|      & \iS\parbox[c]{1.25in}{\af}
+                & \iB  \parbox[c]{1.25in}{\af}
+                & \iE \parbox[c]{1.25in}{\af}   \\[3mm]
+\verb|\cierto|  & \iS\cierto & \iB \cierto  & \iE \cierto    \\
+\verb|\falso|   & \iS\falso  & \iB \falso   & \iE \falso     \\[1mm]
+\verb|\ii|      & \iS\parbox[c]{1.25in}{\ii}
+                & \iB  \parbox[c]{1.25in}{\ii}
+                & \iE \parbox[c]{1.25in}{\ii}   \\[3mm]
+\verb|\no   |   & \iS\no     & \iB \no      & \iE \no \\
+\verb|\Sesgo|   & \iS\Sesgo  & \iB \Sesgo   & \iE \Sesgo \\
+\verb|\si   |   & \iS\si     & \iB \si      & \iE \si \\
+\verb|\Var|     & \iS\Var    & \iB \Var     & \iE \Var   \\
+\verb|\Y|       & \iS\Y      & \iB \Y       & \iE \Y     \\
 \bottomrule
 \end{tabular}
 \normalsize
 \end{table}
 
-\section{Notación matemática}
+\subsection{Notación matemática}
 
-\subsection{Constantes}
+\paragraph{Constantes.}
+Constantes de uso frecuente como parte de expresiones.
 
-\begin{table}[htb]
+\begin{table}[h!]
 \centering
 \caption{Constantes frecuentes}
 \bigskip
 \small\setlength{\tabcolsep}{-2pt}
-\begin{tabular}{@{}r@{}ccc}
+\begin{tabular}{@{}l@{\extracolsep{-15pt}}ccc}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
@@ -203,19 +233,23 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \end{table}
 
 
-\subsection{Estimadores}
+\paragraph{Estimadores.}
 \label{estimadores}
+El macro \verb|\est| no está destinado a ser invocado directamente,
+aunque puede serlo. Sirve como base a \verb|\emv| y similares, que
+tienen variantes idiomáticas.
 
-\begin{table}[htb]
+\begin{table}[h!]
 \centering
 \caption{Estimadores frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-2pt}
-\begin{tabular}{@{}r@{}ccc}
+\small\setlength{\tabcolsep}{-10pt}
+\begin{tabular}{@{}l@{\extracolsep{-15pt}}ccc}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
 \midrule
+\verb|\est{a}{b}|   & \iS\est{a}{b}  & \iB\est{a}{b}   & \iE\est{a}{b}   \\
 \verb|\emv{\theta}|   & \iS\emv{\theta}  & \iB\emv{\theta}   & \iE\emv{\theta}   \\
 \verb|\emom{\theta}|  & \iS\emom{\theta} & \iB\emom{\theta}  & \iE\emom{\theta}   \\
 \bottomrule
@@ -223,15 +257,27 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \normalsize
 \end{table}
 
+La macro  \verb|\est| y sus derivadas están previstas para emplearse
+sobre expresiones simples, sobre las que pueda ponerse fácilmente un
+acento circunflejo. En ocasiones habrá que recurrir a dejar parte de
+la expresión que se estima fuera del argumento. Véase por ejemplo la
+diferencia entre estas dos formas de escribir el estimador máximo
+verosímil de $\sigma^2$:
+\bigskip
 
-\subsection{Funciones y expresiones}
+\begin{tabular}[h!]{lc@{$\Rightarrow$}cl}
+\verb|El estimador \emv{\sigma^2}...| &&& El estimador $\emv{\sigma^2}\ldots$ \\
+\verb|El estimador \emv{\sigma}^2...| &&& El estimador $\emv{\sigma}^2\ldots$ \\
+\end{tabular}
 
+\paragraph{Funciones y expresiones.}
+\mbox{ }
 \begin{table}[htb]
 \centering
 \caption{Funciones y expresiones frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-12pt}
-\begin{tabular}{@{}r@{}ccc}
+\small\setlength{\tabcolsep}{-25pt}
+\begin{tabular}{@{}r@{\extracolsep{-10pt}}ccc}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
@@ -252,32 +298,34 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \index{macros!f@\texttt{f}}
 % \index{macros!F@\texttt{F}\;[\f{x}]}
 
-\paragraph{Ejemplos de uso.} Como argumento de \verb|ecm| se pueden
+Como argumento de \verb|ecm| se pueden
 insertar cualesquiera estimadores de los definidos en la
 subsección~\ref{estimadores}. Por ejemplo, podemos escribir:
 \bigskip
 
 \selectlanguage{spanish}
+\small
 \noindent\begin{tabular}[l]{lp{0.5cm}l}
 El \verb|\ecm{\emv{\theta}}| es$\ldots$  &  & El \ecm{\emv{\theta}}
-es$\ldots$ \\
+es$\ldots$ \\[3mm]
 \verb|\ecm{\emv{\pi}} = \ecm{\emom{\pi}}| & & $\ecm{\emv{\pi}}
-= \ecm{\emom{\pi}}$ \\
-\verb|\ecm{\hat\pi} = \Sesgo(\hat\pi) +| \\
-\qquad\qquad \verb|\Var(\hat\pi)| & & $\ecm{\hat\pi} =
+= \ecm{\emom{\pi}}$ \\[3mm]
+\verb|\ecm{\hat\pi} =|& & $\ecm{\hat\pi} =
   \Sesgo(\hat\pi) + \Var(\hat\pi)$ \\
+\qquad \verb|\Sesgo(\hat\pi) + \Var(\hat\pi)|  \\
 \end{tabular}
+\normalsize
 
 
-
-\subsection{Límites}
-
+\paragraph{Límites.}
 Un macro general, \verb|\anylim{texto}| sitúa ``texto'' sobre una flecha
-hacia la derecha. Hay especializaciones para límites en distribución,
-probabilidad y casi seguros (o ``con probabilidad unitaria'').
+hacia la derecha. No está destinado a ser invocado directamente,
+aunque puede serlo. Hay especializaciones para límites en distribución,
+probabilidad y casi seguros (o ``con probabilidad unitaria'') que
+tienen variantes idiomáticas..
 
 
-\begin{table}[htb]
+\begin{table}[h!]
 \centering
 \caption{Límites probabilisticos}
 \bigskip
