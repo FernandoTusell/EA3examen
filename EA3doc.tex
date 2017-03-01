@@ -13,6 +13,7 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{makeidx}
+\usepackage{array}
 \usepackage[english,spanish,basque]{babel}
 \selectlanguage{spanish}
 \usepackage{ifthen}
@@ -26,6 +27,7 @@
 \def\iS{\selectlanguage{spanish}}%
 \def\iB{\selectlanguage{basque}}%
 \def\iE{\selectlanguage{english}}%
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 \DeclareGraphicsRule{eps.gz}{epe}{eps.bb}{`gzip -d #1}
 
@@ -54,7 +56,7 @@ La producción de exámenes hace uso del paquete \texttt{examdesign}.
 \section{Modus operandi}
 
 El flujo de trabajo se recoge esquemáticamente en la
-Figura~\ref{flujo}, \pageref{flujo}. El usuario prepara el fichero
+Figura~\ref{flujo}, pág.~\pageref{flujo}. El usuario prepara el fichero
 maestro alternativamente en formato \texttt{.Rnw} o \texttt{.tex}. El
 primer formato se emplea cuando hay material que requiere ser
 procesado por R (cálculos, tablas estadísticas, gráficas. etc.). Tal
@@ -164,10 +166,24 @@ ficheros, con expresión de los lugares donde deben instalarse:
 \texttt{EA3examen.sty} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
 \texttt{variantes.tex} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
 \texttt{EA3examen.el}  & Ficheros ELisp,    & \verb|/usr/local/share/emacs/site-lisp|\\
+\texttt{EA3plantilla.Rnw}  & Ficheros ELisp,    & \verb|/usr/local/share/emacs/site-lisp|\\
 \bottomrule
 \end{tabular}
 \normalsize
 \end{table}
+
+La versión más actual de los ficheros que componen \texttt{EA3examen}
+puede obtenerse de GitHub\footnote{ Ver
+\url{https://github.com/FernandoTusell/EA3examen}. Código abierto,
+licencia GPL.}, y clonarse en
+cualquier máquina equipada con Git\footnote{Ver
+  \url{https://git-scm.com/.}} mediante el mandato:
+
+\begin{center}
+  \texttt{git clone git@github.com:FernandoTusell/EA3examen.git}
+
+\end{center}
+
 
 \newpage
 \section{Macrodefiniciones}
@@ -186,8 +202,8 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
 \centering
 \caption{Locuciones frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-32pt}
-\begin{tabular}{@{}l@{\extracolsep{-35pt}}ccc}
+\small
+\begin{tabular}{@{}l@{}C{4cm}C{4cm}C{4cm}}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
@@ -197,12 +213,19 @@ proporcionar una respuesta correcta cuando ninguna más lo es.
                 & \iE \parbox[c]{1.25in}{\af}   \\[3mm]
 \verb|\cierto|  & \iS\cierto & \iB \cierto  & \iE \cierto    \\
 \verb|\falso|   & \iS\falso  & \iB \falso   & \iE \falso     \\[1mm]
+\verb|\nunca|   & \iS\nunca  & \iB \nunca   & \iE \nunca     \\[1mm]
 \verb|\ii|      & \iS\parbox[c]{1.25in}{\ii}
                 & \iB  \parbox[c]{1.25in}{\ii}
                 & \iE \parbox[c]{1.25in}{\ii}   \\[3mm]
 \verb|\no   |   & \iS\no     & \iB \no      & \iE \no \\
 \verb|\Sesgo|   & \iS\Sesgo  & \iB \Sesgo   & \iE \Sesgo \\
 \verb|\si   |   & \iS\si     & \iB \si      & \iE \si \\
+\verb|\sif   |   & \iS\sif     & \iB \sif      & \iE \sif \\
+\verb|\Sif   |   & \iS\Sif     & \iB \Sif      & \iE \Sif \\
+\verb|\Sifthen{a}{b}   |   & \iS \parbox[c]{1.25in}{\Sifthen{a}{b}}
+                           & \iB \parbox[c]{1.25in}{\Sifthen{a}{b}}
+                           & \iE \parbox[c]{1.25in}{\Sifthen{a}{b}} \\
+
 \verb|\Var|     & \iS\Var    & \iB \Var     & \iE \Var   \\
 \verb|\Y|       & \iS\Y      & \iB \Y       & \iE \Y     \\
 \bottomrule
@@ -219,8 +242,8 @@ Constantes de uso frecuente como parte de expresiones.
 \centering
 \caption{Constantes frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-2pt}
-\begin{tabular}{@{}l@{\extracolsep{-15pt}}ccc}
+\small
+\begin{tabular}{@{}r@{}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
@@ -243,8 +266,8 @@ tienen variantes idiomáticas.
 \centering
 \caption{Estimadores frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-10pt}
-\begin{tabular}{@{}l@{\extracolsep{-15pt}}ccc}
+\small
+\begin{tabular}{@{}r@{}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
@@ -257,7 +280,7 @@ tienen variantes idiomáticas.
 \normalsize
 \end{table}
 
-La macro  \verb|\est| y sus derivadas están previstas para emplearse
+La macro  \verb|\est| y sus derivados están previstos para emplearse
 sobre expresiones simples, sobre las que pueda ponerse fácilmente un
 acento circunflejo. En ocasiones habrá que recurrir a dejar parte de
 la expresión que se estima fuera del argumento. Véase por ejemplo la
@@ -276,14 +299,16 @@ verosímil de $\sigma^2$:
 \centering
 \caption{Funciones y expresiones frecuentes}
 \bigskip
-\small\setlength{\tabcolsep}{-25pt}
-\begin{tabular}{@{}r@{\extracolsep{-10pt}}ccc}
+\small
+\begin{tabular}{@{}r@{}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
 \midrule
+\verb|\Var{x}|     & \iS\Var{x}  & \iB\Var{x}   & \iE\Var{x}   \\
 \verb|\f{x}|       & \iS\f{x}  & \iB\f{x}   & \iE\f{x}   \\
 \verb|\F{x}|       & \iS\F{x}  & \iB\F{x}   & \iE\F{x}   \\
+\verb|\FisherInf{\theta}|       & \iS\FisherInf{\theta}  & \iB\FisherInf{\theta}   & \iE\FisherInf{\theta}   \\
 \verb|\charf{x}|    & \iS\charf{x}  & \iB\charf{x}   & \iE\charf{x}   \\
 \verb|\momg{x}|    & \iS\momg{x}  & \iB\momg{x}   & \iE\momg{x}   \\
 \verb|\ecm{\hat\theta}| & \iS\ecm{\hat{\theta}} & \iB\ecm{\hat{\theta}} & \iE\ecm{\hat{\theta}} \\
@@ -317,20 +342,25 @@ es$\ldots$ \\[3mm]
 \normalsize
 
 
-\paragraph{Límites.}
+\paragraph{Límites, convergencias, distribuciones asintóticas}
 Un macro general, \verb|\anylim{texto}| sitúa ``texto'' sobre una flecha
 hacia la derecha. No está destinado a ser invocado directamente,
 aunque puede serlo. Hay especializaciones para límites en distribución,
 probabilidad y casi seguros (o ``con probabilidad unitaria'') que
 tienen variantes idiomáticas..
 
-
+El macro \verb|\dist{texto}| sitúa ``texto'' sobre el símbolo
+habitualmente utilizado para ``se distribuye como''. Especializaciones
+son \verb|\asin| (= \verb|\dist{a}|) para indicar distribución
+asintótica
+ y \verb|\diid| (= \verb|\dist{\iid}|)
+para indicar ``independientes y con idéntica distribución''.
 \begin{table}[h!]
 \centering
-\caption{Límites probabilisticos}
+\caption{Límites, convergencias y distribuciones asintóticas}
 \bigskip
-\small\setlength{\tabcolsep}{-2pt}
-\begin{tabular}{@{}r@{}ccc}
+\small
+\begin{tabular}{@{}r@{}C{2.5cm}C{2.5cm}C{2.5cm}}
 \toprule
  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
 \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
@@ -339,14 +369,41 @@ tienen variantes idiomáticas..
 \verb|\dlim|    & \iS\dlim  & \iB \dlim  & \iE \dlim \\
 \verb|\plim|    & \iS\plim  & \iB \plim  & \iE \plim \\
 \verb|\cslim|   & \iS\cslim & \iB \cslim & \iE \cslim \\
+\verb|\dist{xxx}|   & \iS\dist{xxx} & \iB \dist{xxx} & \iE\dist{xxx} \\
+\verb|\asint|   & \iS\asin  & \iB\asin & \iE\asin \\
+\verb|\diid|    & \iS\diid  & \iB\diid & \iE\diid \\
 \bottomrule
 \end{tabular}
 \normalsize
 \end{table}
 
 
-\newpage
+% \newcommand*{\esp}[1]{\foreignlanguage{spanish}{#1}}%
+% \newcolumntype{S}[1]{>{\collectcell\esp}c<{\endcollectcell}}
+% \newcommand*{\ing}[1]{\foreignlanguage{english}{#1}}%
+% \newcolumntype{I}[1]{>{\collectcell\ing}c<{\endcollectcell}}
+% \newcommand*{\eus}[1]{\foreignlanguage{basque}{#1}}%
+% \newcolumntype{E}[1]{>{\collectcell\eus}c<{\endcollectcell}}
 
+% \begin{table}[h!]
+% \centering
+% \caption{Límites, convergencias, distribuciones asintóticas }
+% \bigskip
+% \small%\setlength{\tabcolsep}{-5pt}
+% \begin{tabular}{@{}r@{}c{1cm}c{6cm}c{1cm}}
+% \toprule
+%  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
+% \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
+% \midrule
+% \verb|\anylim{texto}|       & \anylim{texto}  & \anylim{texto}   & \anylim{texto}    \\
+% \verb|\dlim|    & \dlim  &  \dlim  & \dlim \\
+% \verb|\plim|    & \nunca  &  \nunca  & \nunca \\
+% \bottomrule
+% \end{tabular}
+% \normalsize
+% \end{table}
+
+\newpage
 \printindex
 
 

@@ -9,69 +9,96 @@
 \def\est#1#2{\ensuremath{\hat{#1}_{\textrm{#2}}}}
 \def\f#1{\ensuremath{f_{\uppercase{#1}}(#1)}}
 \def\F#1{\ensuremath{F_{\uppercase{#1}}(#1)}}
+\def\FisherInf#1{\ensuremath{E\left(\frac{\partial\ln f(X,#1)}{\partial #1}\right)^2}}
 \def\charf#1{\ensuremath{\psi_{\uppercase{#1}}(u)}}
 \def\momg#1{\ensuremath{\varphi_{\uppercase{#1}}(u)}}
-\def\anylim#1{
-    \ensuremath{\buildrel#1\over\longrightarrow}}
-
+\def\anylim#1{\ensuremath{\buildrel#1\over\longrightarrow}}
+\def\dist#1{\ensuremath{\buildrel#1\over{\sim}}}
 %
 %  Macros idiomáticos utilizables en el texto
 %
 \addto\extrasspanish{
+\def\puntuacion#1#2{\emph{(#1 puntos, #2 minutos)}}
+\def\asin{\dist{a}}
 \def\cierto{Cierto}
 \def\falso{Falso}
 \def\si{Sí}
 \def\no{No}
 \def\ii{No hay información suficiente para responder}
+\def\iid{\textit{iid}}
+\def\diid{\dist{\iid}}
 \def\ecm#1{\ensuremath{\textrm{ECM}(#1\normalsize)}}
 \def\emv#1{\est{#1}{MV}}
 \def\emom#1{\est{#1}{M}}
-\def\Y{y{}}                                   %  Conjunción copulativa "y".
+\def\entonces{entonces}
+\def\nunca{Nunca}
+\def\Y{y{}}                                 %  Conjunción copulativa "y".
 \def\af{Las demás respuestas son falsas.}   %  Catch all
 \def\Sesgo{\textrm{Sesgo}}
+\def\sif{si}                                % "Si" condicional
+\def\Sif{Si}
 \def\Var{\textrm{Var}}
 \def\plim{\anylim{p}}                       % convergencia en distribución
 \def\dlim{\anylim{d}}                       % convergencia en probabilidad
-\def\cslim{\anylim{c.s.}}                            % convergencia casi segura
+\def\cslim{\anylim{c.s.}}                   % convergencia casi segura
 }
 
 %%%%%%%%%    Inglés    %%%%%%%%%%%
 
 \addto\extrasenglish{
+\def\puntuacion#1#2{\emph{(#1 points, #2 minutes)}}
+\def\asin{\dist{\textit{a}}}
 \def\cierto{True}
 \def\falso{False}
 \def\si{Yes}
 \def\no{No}
 \def\ii{There is not enough information to answer}
+\def\iid{\textit{iid}}
+\def\diid{\dist{\iid}}
 \def\ecm#1{\ensuremath{\textrm{MSE}(#1\normalsize)}}
 \def\emv#1{\est{#1}{MLE}}
 \def\emom#1{\est{#1}{M}}
+\def\entonces{then}
+\def\nunca{Never}
 \def\Y{and{}}
 \def\af{All other answers are false}        %  Catch all
 \def\Sesgo{\textrm{Bias}}
+\def\sif{if}                                % "Si" condicional
+\def\Sif{If}
 \def\Var{\textrm{Var}}
 \def\plim{\anylim{p}}                       % convergencia en distribución
 \def\dlim{\anylim{d}}                       % convergencia en probabilidad
-\def\cslim{\anylim{a.s.}}                            % convergencia casi segura
+\def\cslim{\anylim{a.s.}}                   % convergencia casi segura
 }
 
 
 %%%%%%%%%    Euskera   %%%%%%%%%%%
 
 \addto\extrasbasque{
-\def\cierto{True}
-\def\falso{False}
+\def\puntuacion#1#2{\emph{(#1 puntu, #2 minutu)}}
+\def\asin{\dist{\textit{a}}}
+\def\cierto{Egiazkoa}
+\def\falso{Faltsua}
 \def\si{Bai}
 \def\no{Ez}
-\def\ii{No hay información suficiente para responder}
-\def\ecm#1{\ensuremath{\textrm{ECM}(#1\normalsize)}}
-\def\emv#1{\est{#1}{MV}}
+\def\ii{Ez daukagu informazio nahikorik erantzuteko}
+\def\iid{\textit{iid}}
+\def\diid{\dist{\iid}}
+\def\ecm#1{\ensuremath{\textrm{BEK}(#1\normalsize)}}
+\def\emv#1{\est{#1}{EH}}
 \def\emom#1{\est{#1}{M}}
+\def\entonces{entonces\ }
+\def\nunca{Inoiz ez}
 \def\Y{eta{}}
-\def\af{ Beste erantzunak faltsuak dira.}   %  Catch all
+\def\af{Beste erantzunak faltsuak dira.}    %  Catch all
 \def\Sesgo{\textrm{Alborapena}}
+\def\sif{if\ }                                % "Si" condicional
+\def\Sif{If\ }
 \def\Var{\textrm{Bar}}
 \def\plim{\anylim{p}}                       % convergencia en distribución
-\def\dlim{\anylim{d}}                       % convergencia en probabilidad
-\def\cslim{\anylim{c.s.}}                            % convergencia casi segura
+\def\dlim{\anylim{b}}                       % convergencia en probabilidad
+\def\cslim{\anylim{u}}                      % convergencia casi segura
 }
+
+\def\sifthen#1#2{\sif\ #1 \entonces\ #2}
+\def\Sifthen#1#2{\Sif\ #1 \entonces\ #2}
