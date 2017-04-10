@@ -12,14 +12,16 @@
 \def\FisherInf#1{\ensuremath{E\left(\frac{\partial\ln f(X,#1)}{\partial #1}\right)^2}}
 \def\charf#1{\ensuremath{\psi_{\uppercase{#1}}(u)}}
 \def\momg#1{\ensuremath{\varphi_{\uppercase{#1}}(u)}}
-\def\anylim#1{\ensuremath{\buildrel#1\over\longrightarrow}}
-\def\dist#1{\ensuremath{\buildrel#1\over{\sim}}}
+\def\anylim#1{
+    \ensuremath{\buildrel#1\over\longrightarrow}}
+\def\dist#1{
+    \ensuremath{\buildrel#1\over\sim}}
 %
 %  Macros idiomáticos utilizables en el texto
 %
 \addto\extrasspanish{
 \def\puntuacion#1#2{\emph{(#1 puntos, #2 minutos)}}
-\def\asin{\dist{a}}
+\def\asin{\dist{\textit{a}}}
 \def\cierto{Cierto}
 \def\falso{Falso}
 \def\si{Sí}
@@ -32,7 +34,7 @@
 \def\emom#1{\est{#1}{M}}
 \def\entonces{entonces}
 \def\nunca{Nunca}
-\def\Y{y{}}                                 %  Conjunción copulativa "y".
+\def\Y{y{ }}                                 %  Conjunción copulativa "y".
 \def\af{Las demás respuestas son falsas.}   %  Catch all
 \def\Sesgo{\textrm{Sesgo}}
 \def\sif{si}                                % "Si" condicional
@@ -60,7 +62,7 @@
 \def\emom#1{\est{#1}{M}}
 \def\entonces{then}
 \def\nunca{Never}
-\def\Y{and{}}
+\def\Y{and{ }}
 \def\af{All other answers are false}        %  Catch all
 \def\Sesgo{\textrm{Bias}}
 \def\sif{if}                                % "Si" condicional
@@ -89,7 +91,7 @@
 \def\emom#1{\est{#1}{M}}
 \def\entonces{entonces\ }
 \def\nunca{Inoiz ez}
-\def\Y{eta{}}
+\def\Y{eta{ }}
 \def\af{Beste erantzunak faltsuak dira.}    %  Catch all
 \def\Sesgo{\textrm{Alborapena}}
 \def\sif{if\ }                                % "Si" condicional
