@@ -117,6 +117,7 @@ por cada idioma en la lista 'prefijos'"
 	  (run-hooks 'LaTeX-mode-hook)
 	  (latex-mode)
 	  (find-file version))
+	  (save-buffer)
 	  ))
     (setq ver (cdr ver))
     )
