@@ -7,6 +7,7 @@
 \usepackage[round]{natbib}
 \usepackage{url}
 \usepackage{booktabs}
+\usepackage{fancybox}
 \usepackage{dcolumn}
 \usepackage{amsmath}
 \usepackage{bm}
@@ -14,15 +15,44 @@
 \usepackage{microtype}
 \usepackage{makeidx}
 \usepackage{array}
-\usepackage[english,spanish,basque]{babel}
+\usepackage[english,basque,spanish]{babel}
 \selectlanguage{spanish}
 \usepackage{ifthen}
 % \usepackage{afterpage}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,shadows,babel}
-
+\usepackage{listings}
+\usepackage{hyperref}
 \input  variantes.tex
 
+%  De https://tex.stackexchange.com/questions/117943/hyperref-footnotes-and-section-ref-colors
+\makeatletter
+\def\@footnotecolor{red}
+\define@key{Hyp}{footnotecolor}{%
+ \HyColor@HyperrefColor{#1}\@footnotecolor%
+}
+\def\@footnotemark{%
+    \leavevmode
+    \ifhmode\edef\@x@sf{\the\spacefactor}\nobreak\fi
+    \stepcounter{Hfootnote}%
+    \global\let\Hy@saved@currentHref\@currentHref
+    \hyper@makecurrent{Hfootnote}%
+    \global\let\Hy@footnote@currentHref\@currentHref
+    \global\let\@currentHref\Hy@saved@currentHref
+    \hyper@linkstart{footnote}{\Hy@footnote@currentHref}%
+    \@makefnmark
+    \hyper@linkend
+    \ifhmode\spacefactor\@x@sf\fi
+    \relax
+  }%
+  \makeatother
+
+\hypersetup{
+  colorlinks = true,
+  footnotecolor = black,
+  linkcolor = black,
+  urlcolor = blue,
+}
 
 \def\iS{\selectlanguage{spanish}}%
 \def\iB{\selectlanguage{basque}}%
@@ -34,12 +64,13 @@
 % \setkeys{Gin}{width=0.9\textwidth}
 
 \makeindex
-\title{Documentación para \texttt{EA3examen}}
+\title{Documentación para \texttt{EA3examen} y herramientas relacionadas}
 % \author{F. Tusell}
-\date{23 marzo 2016}
+\date{\today}
 
 \begin{document}
 \maketitle
+\tableofcontents
 
 \section{Introducción}
 
@@ -50,16 +81,21 @@ en cada idioma. Pueden utilizarse sólo partes, como las definiciones
 en \LaTeX, que pueden emplearse en cualquier documento, examen o no,
 en uno o en varios idiomas.
 
-La producción de exámenes hace uso del paquete \texttt{examdesign}.
+La producción de exámenes hace uso del paquete
+\texttt{examdesign}\footnote{Dsiponible en CTAN,
+  \url{http://mirror.ox.ac.uk/sites/ctan.org/macros/latex/contrib/examdesign/}.}.
 
 
 \section{Modus operandi}
+\label{mo}
 
 El flujo de trabajo se recoge esquemáticamente en la
 Figura~\ref{flujo}, pág.~\pageref{flujo}. El usuario prepara el fichero
 maestro alternativamente en formato \texttt{.Rnw} o \texttt{.tex}. El
 primer formato se emplea cuando hay material que requiere ser
-procesado por R (cálculos, tablas estadísticas, gráficas. etc.). Tal
+procesado por R (cálculos, tablas estadísticas, gráficas. etc.).
+\par\penalty-5000
+Tal
 material se inserta en un fichero nombrado con extensión \texttt{.Rnw}
 en bloques tales como
 \medskip
@@ -85,7 +121,7 @@ Estas líneas se copian tal cual al fichero \texttt{.tex} al procesar
 el fichero \texttt{.Rnw}. Algunas funciones en Emacs ayudan a editar
 el texto variante.
 
-En la etapa posterior, se generan las vesiones para los idiomas que se
+En la etapa posterior, se generan las versiones para los idiomas que se
 hayan configurado. Un único golpe de tecla en Emacs genera a partir
 del documento precursor tantos otros como idiomas, con nombres iguales
 al del precursor prefijados por el idioma (\texttt{EN.fichero.tex},
@@ -164,7 +200,7 @@ ficheros, con expresión de los lugares donde deben instalarse:
 \textbf{Fichero} & \textbf{Ubicación} & \textbf{En Linux, típicamente:} \\
 \midrule
 \texttt{EA3examen.sty} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
-\texttt{variantes.tex} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
+%\texttt{variantes.tex} & Formatos \LaTeX{}, & \verb|/usr/local/share/texmf/tex/latex|\\
 \texttt{EA3examen.el}  & Ficheros ELisp,    & \verb|/usr/local/share/emacs/site-lisp|\\
 \texttt{EA3plantilla.Rnw}  & Ficheros ELisp,    & \verb|/usr/local/share/emacs/site-lisp|\\
 \bottomrule
@@ -178,14 +214,12 @@ puede obtenerse de GitHub\footnote{ Ver
 licencia GPL.}, y clonarse en
 cualquier máquina equipada con Git\footnote{Ver
   \url{https://git-scm.com/.}} mediante el mandato:
-
 \begin{center}
   \texttt{git clone git@github.com:FernandoTusell/EA3examen.git}
 
 \end{center}
 
 
-\newpage
 \section{Macrodefiniciones}
 
 \subsection{Locuciones frecuentes}
@@ -378,32 +412,270 @@ para indicar ``independientes y con idéntica distribución''.
 \normalsize
 \end{table}
 
+\newpage
+\section{Exámenes para Moodle (= e-Gela)}
 
-% \newcommand*{\esp}[1]{\foreignlanguage{spanish}{#1}}%
-% \newcolumntype{S}[1]{>{\collectcell\esp}c<{\endcollectcell}}
-% \newcommand*{\ing}[1]{\foreignlanguage{english}{#1}}%
-% \newcolumntype{I}[1]{>{\collectcell\ing}c<{\endcollectcell}}
-% \newcommand*{\eus}[1]{\foreignlanguage{basque}{#1}}%
-% \newcolumntype{E}[1]{>{\collectcell\eus}c<{\endcollectcell}}
+\subsection{Ex-novo}
 
-% \begin{table}[h!]
-% \centering
-% \caption{Límites, convergencias, distribuciones asintóticas }
-% \bigskip
-% \small%\setlength{\tabcolsep}{-5pt}
-% \begin{tabular}{@{}r@{}c{1cm}c{6cm}c{1cm}}
-% \toprule
-%  & \multicolumn{3}{c}{\textbf{Variantes idiomáticas}}  \\[1mm]
-% \textbf{Macro} & \textbf{Español} & \textbf{Euskera} & \textbf{Inglés} \\
-% \midrule
-% \verb|\anylim{texto}|       & \anylim{texto}  & \anylim{texto}   & \anylim{texto}    \\
-% \verb|\dlim|    & \dlim  &  \dlim  & \dlim \\
-% \verb|\plim|    & \nunca  &  \nunca  & \nunca \\
-% \bottomrule
-% \end{tabular}
-% \normalsize
-% \end{table}
+Si se puede partir desde cero, la forma más simple que he encontrado
+consiste en emplear un formato distinto a \texttt{examdesign} junto
+con el paquete \texttt{moodle}\footnote{Ver
+  \url{http://tug.ctan.org/macros/latex/contrib/moodle/moodle.pdf}.
+  Paquete disponible en CTAN.}. El uso es muy simple. Para preguntas
+de elección múltiple, emplearíamos algo como:
+\bigskip
 
+\cornersize{.07}
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+}
+\Ovalbox{\lstinputlisting{examen.tex}}
+\bigskip
+\par\penalty-5000
+
+Al procesar un fichero como el precedente (que guardaremos con
+extensión \texttt{.tex}) mediante
+
+\begin{verbatim}
+pdflatex examen.tex
+\end{verbatim}
+obtenemos un fichero en \texttt{examen.pdf} con las soluciones marcadas (que puede
+servirnos para verificar que todo está bien) y, además, un fichero de
+nombre \texttt{examen-moodle.xlm} en XML con la apariencia siguiente:
+\bigskip
+
+\Ovalbox{\lstinputlisting{examen-moodle.xml}}
+\bigskip
+
+Este fichero, que puede contener muchas cuestiones, es el que puede
+importarse en Moodle empleando la opción de importación en XML.
+
+\emph{Podríamos} emplear un procedimiento análogo al seguido en las
+secciones precedentes para generar ficheros en distintos lenguajes;
+pero no podemos emplear \texttt{examdesign} ni los macros en
+\texttt{EA3examen}, porque Moodle no los interpretará.
+
+\subsection{A partir de exámenes pre-existentes}
+
+Si se desea aprovechar un examen pre-existente en el formato
+\texttt{examdesign} que por bastantes años hemos venido empleando,
+puede hacerse mediante el procedimiento que se bosqueja a continuación.
+
+
+Este procedimiento tiene la ventaja de generar \emph{a la vez}
+formularios de examen sobre papel para administrar un examen
+convencional y fuente en XML para importar a un banco de preguntas en Moodle.
+Tiene no obstante muchos inconvenientes:
+\begin{enumerate}
+\item Emplea herramientas de software auxiliares que pueden no existir o ser
+difíciles de instalar o sustituir en Windows\footnote{Aunque son
+  standard en Debian Linux, por ejemplo.}.
+\item No se pueden emplear preguntas relacionadas en bloques,
+  compartiendo un enunciado común. En Moodle cada pregunta es
+  independiente.  Puede recurrirse a copiar el enunciado común en
+  todas ellas, pero no se puede garantizar que se presenten al
+  estudiante en orden.
+\item Si se emplean macros en las cuestiones para recoger variaciones
+  lingüísticas, hay que reemplazarlos antes de dar el paso de \LaTeX{}
+  a XML.
+\item Es preciso emplear codificación de caracteres UTF-8; Moodle no
+  admitirá otra cosa.
+\item No podremos emplear la ventaja de incluir figuras generadas ``al
+  vuelo'' mediante la inclusión de código R en el fichero
+  \texttt{.Rnw}, ni tampoco código. En particular, el símbolo
+  \texttt{<} no será utilizable en una expresión como
+\begin{verbatim}
+     a <- 4
+\end{verbatim}
+  porque en XML los caracteres \texttt{<} y \texttt{>} tienen uso
+  especial.
+\item Normalmente será preciso retocar el resultado manualmente. Es un
+proceso frágil.
+\end{enumerate}
+
+\par\penalty-5000
+\noindent Si, pese a todo, se desea seguir esta vía, el modo de hacerlo es el
+siguiente:
+
+\begin{enumerate}
+\item Generar, siguiendo el procedimiento descrito en la
+  Sección~\ref{mo}, versiones \texttt{.tex} en todos los idiomas
+  requeridos. En lo que sigue, se describe el modo de actuar con
+  el fichero \texttt{EN.examen.tex}; debe hacerse lo propio con
+  cada uno de los otros idiomas.
+
+  Este examen no debe contener bloques de cuestiones o figuras.
+\item Procesar el fichero \texttt{EN.examen.tex} corriendo sobre él
+  el programa \texttt{moodleiza}:
+\begin{verbatim}
+   moodleiza  EN.examen.tex
+\end{verbatim}
+Esto produce en el directorio de trabajo varios nuevos ficheros, de
+entre los cuales \texttt{EN.examen-clean.xml} es el que nos
+interesa. Está en formato XML y permite, si carece de errores,
+su importación directa a Moodle\footnote{El modo de realizarla sed
+  detalla en \url{https://docs.moodle.org/38/en/Moodle_XML_format}.}.
+\item Verificar la existencia de errores antes de intentar la
+  importación a Moodle. Un modo de hacerlo es invocar Emacs sobre el
+  fichero  \texttt{EN.examen-clean.xml} y en el menú \texttt{XML}
+  pinchar \texttt{Next error} para ver los errores que puedan existir.
+  En la medida de lo posible, estos errores se deben solucionar
+  ``aguas arriba'', en el fichero \texttt{.Rnw} si es posible, de
+  manera que queden solucionados para todas las versiones que se
+  generen a partir del mismo.
+\end{enumerate}
+
+\noindent El programa \texttt{moodleiza} invoca otros varios, que deben
+  estar instalados y hace implícitamente supuestos sobre la fuente. En
+  particular, las respuestas deben estar en el modo en que las inserta
+  Emacs cuando pulsamos \texttt{F4}:
+\begin{verbatim}
+     \choice{
+        Texto respuesta
+     }
+\end{verbatim}
+  de forma que \texttt{moodleiza} pueda detectar inambiguamente el
+  comienzo y el final. Causaría un error algo como:
+\begin{verbatim}
+     \choice{
+        Texto respuesta
+     } \choice{
+        Otra respuesta
+     }
+\end{verbatim}
+a pesar de que ello no originaría problemas al producir el examen en
+\LaTeX.
+
+\appendix
+\section{Descripción de operaciones que realiza \texttt{moodleiza}.}
+
+(Esta Sección debiera ser innecesaria, pero saber las
+transformaciones que realiza \texttt{moodleiza} puede ayudar a
+diagnosticar problemas cuando algo va mal, o incluso realizar tales
+transformaciones manualmente de una en una, para ver dónde se produce
+el fallo.)
+
+Las operaciones que es preciso realizar sobre el fichero
+\texttt{EN.examen.tex} son las siguientes:
+
+\begin{enumerate}
+\item Expandir todos los macros que hayamos empleado para introducir
+  variantes lingüísticas, de forma que una línea tal como:
+\begin{verbatim}
+     $X_n\plim a$
+\end{verbatim}
+  quede reemplazada (en la versión inglesa) por
+\begin{verbatim}
+     $X_n {\buildrel p \over\longrightarrow} a$
+\end{verbatim}
+  Esto es necesario porque \verb|\plim| (y otros muchos) son macros
+  privados nuestros, que Moodle no reconocerá.
+
+  Para obtener esta expansión de macros necesitamos disponer de sus
+  definiciones (las llamaremos \texttt{EN.macros-private.sty}; ha de
+  existir un tal fichero por idioma, y necesariamente el nombre ha de
+  terminar en \texttt{-private.sty})\footnote{Este
+    fichero ha de estar creado. No puede obtenerse directamente de
+    \texttt{EA3examen.sty}, como podría imaginarse: en
+    \texttt{EN.macros-private.sty} y análogos en otros idiomas, los macros
+    han de estar definidos mediante \texttt{newcommand} o
+    \texttt{renewcommand}; en \texttt{EA3examen.sty} han de estar
+    definidos mediante \texttt{def}.}. Se inserta
+  en la cabecera de \texttt{EN.examen.tex} una línea:
+\begin{verbatim}
+     \usepackage{EN.macros-private}
+\end{verbatim}
+  y se elimina \verb|\usepackage{EA3examen}| (pues las definiciones
+  alternativas de los mismos macros, mutuamente se machacan).
+  Esta sustitución la hace \texttt{moodleiza} invocando el editor de
+  flujo \texttt{sed}\footnote{Presente en toda instalación
+    Unix/Linux.}.
+
+  Para ficheros fuente en otros idiomas se reemplaza la
+  línea de macros que corresponda (como
+  \texttt{ES.macros-private.sty} o
+  \texttt{EU.macros-private.sty}). La detección del lenguaje del
+  fichero se efectúa examinando la configuración del paquete
+  \texttt{babel} (en particular, la línea \verb|\selectlanguage{<idioma>}|).
+
+
+
+  A continuación se ejecuta:
+\begin{verbatim}
+     de-macro  EN.examen
+\end{verbatim}
+  Obsérvese que no se incluye la extensión \texttt{.tex}.
+  El ejecutable
+\texttt{de-macro}
+ es un programa en Python\footnote{Por
+tanto, debe existir un interprete de Python en la máquina
+en que trabajamos, algo habitual en maquinas Linux; además, ha de ser
+la versión 2. \texttt{de-macro} procede de
+\url{https://ctan.org/pkg/de-macro}}.
+ El output de
+  \texttt{de-macro} es un fichero de nombre \texttt{EN.examen-clean.tex}.
+\item Convertir el fichero  \texttt{EN.examen-clean.tex} a codificación
+  UTF-8 si la original era otra (supondremos en lo que sigue que
+  era ISO-8859-1, también conocida como \texttt{latin1}).
+  \par\penalty-5000
+  En Linux, esto puede hacerse mediante
+  el mandato:
+\begin{verbatim}
+     recode latin1..utf8  EN.examen-clean.tex
+\end{verbatim}
+  que \textbf{sobreescribe} el fichero
+  original\footnote{\texttt{recode} es un programa habitual en
+    instalaciones Linux. En Debian/Ubuntu se encuentra en el paquete
+    del mismo nombre.}.
+
+%   A continuación, se
+%   edita reemplazando en las primeras líneas:
+% \begin{verbatim}
+% % -*- coding: iso-8859-15 -*-
+% \end{verbatim}
+%   por:
+% \begin{verbatim}
+% % -*- coding: utf-8 -*-
+% \end{verbatim}
+%   y:
+% \begin{verbatim}
+% \usepackage[latin1]{inputenc}
+% \end{verbatim}
+%   por:
+% \begin{verbatim}
+% \usepackage[utf8]{inputenc}
+% \end{verbatim}
+
+\item Correr el programa \texttt{exam2moodle.pl} sobre el fichero
+  \texttt{EN.examen-clean.tex} obtenido en el paso
+  precedente\footnote{\texttt{exam2moodle.pl} es un programa muy
+    simple escrito en Perl. Debe existir un intérprete de Perl en la
+    máquina, algo  standard en máquinas Linux.}.
+\begin{verbatim}
+     exam2mooddle.pl  EN.examen.tex
+\end{verbatim}
+  Dicho
+  programa cambia el formato de las cuestiones, del propio de
+  \texttt{examdesign} al formato XML que Moodle requiere para
+  importación a su banco de cuestiones. Dejará en el directorio en el
+  que estamos trabajando un nuevo fichero \texttt{EN.examen-clean.xml}. Este
+  fichero es el que se importa por Moodle, comprobando
+  primero\footnote{Con Emacs, por ejemplo.} la inexistencia de errores
+  sintácticos, en presencia de los cuales la importación fallaría.
+\end{enumerate}
+
+\section{Licencias}
+Todo el software mencionado es propiedad de sus
+autores, licenciados en diferentes términos.
+\texttt{moodleiza} y \texttt{exam2moodle.pl} son de fuente
+libre bajo licencia GPL, y pueden obtenerse del repositorio GitHub
+mencionado más arriba.
 \newpage
 \printindex
 

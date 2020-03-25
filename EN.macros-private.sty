@@ -1,0 +1,52 @@
+%
+%  Macros, comunes a todos los idiomas (algunos se especializan
+%  más abajo para cada idioma)
+%
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+\newcommand{\oh}{{\frac{1}{2}}}
+\newcommand{\rdpi}{{\sqrt{2\pi}}}
+\newcommand{\est}[2]{{\hat{#1}_{\textrm{#2}}}}
+\newcommand{\f}[1]{{f_{\uppercase{#1}}(#1)}}
+\newcommand{\F}[1]{{F_{\uppercase{#1}}(#1)}}
+\newcommand{\FisherInf}[1]{{E\left(\frac{\partial\ln f(X,#1)}{\partial #1}\right)^2}}
+\newcommand{\charf}[1]{{\psi_{\uppercase{#1}}(u)}}
+\newcommand{\momg}[1]{{\varphi_{\uppercase{#1}}(u)}}
+\newcommand{\anylim}[1]{
+    {\buildrel#1\over\longrightarrow}}
+\newcommand{\dist}[1]{
+    {\buildrel#1\over\sim}}
+%
+%  Macros idiomáticos utilizables en el texto
+%
+%%%%%%%%%    Inglés    %%%%%%%%%%%
+
+\newcommand{\puntuacion}[2]{\emph{(#1 point, #2 minutes)}}
+\newcommand{\asin}{\dist{\textit{a}}}
+\newcommand{\casicero}{Zero for all practical purposes}
+\newcommand{\cierto}{True}
+\newcommand{\falso}{False}
+\newcommand{\si}{Yes}
+\newcommand{\no}{No}
+\newcommand{\ii}{There is not enough information to answer}
+\newcommand{\iid}{\textit{iid}}
+\newcommand{\diid}{\dist{\iid}}
+\newcommand{\ecm}[1]{{\textrm{MSE}(#1\normalsize)}}
+\newcommand{\emv}[1]{\est{#1}{MLE}}
+\newcommand{\emom}[1]{\est{#1}{M}}
+\newcommand{\entonces}{then }
+\newcommand{\nunca}{Never}
+\newcommand{\Y}{and }
+\newcommand{\af}{All other answers are false.}    %  Catch all
+\newcommand{\Sesgo}{\textrm{Bias}}
+\newcommand{\sif}{si }                                % "Si" condicional
+\newcommand{\Sif}{Si }
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\plim}{\anylim{p}}                       % convergencia en distribución
+\newcommand{\dlim}{\anylim{d}}                       % convergencia en probabilidad
+\newcommand{\cslim}{\anylim{a.s.}}                   % convergencia casi segura
+
+
+
+\newcommand{\sifthen}[2]{\sif #1 \entonces #2}
+\newcommand{\Sifthen}[2]{\Sif #1 \entonces #2}

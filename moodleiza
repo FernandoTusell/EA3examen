@@ -1,0 +1,54 @@
+#!/bin/bash
+INPUT=$1
+BASE=${INPUT%.*}
+EXT=${INPUT##*.}
+MACROSDIR=/usr/local/share/texmf/tex/latex
+#
+#  Crear vínculos a los macros necesarios
+#
+[ ! -f ES.macros-private.sty ] &&  ln -s "$MACROSDIR/ES.macros-private.sty"  ES.macros-private.sty
+[ ! -f EN.macros-private.sty ] &&  ln -s "$MACROSDIR/EN.macros-private.sty"  EN.macros-private.sty
+[ ! -f EU.macros-private.sty ] &&  ln -s "$MACROSDIR/EU.macros-private.sty"  EU.macros-private.sty
+#
+#  Añadir los macros necesarios a cada idioma.
+#
+/bin/sed -i 's/\\selectlanguage{spanish}/\\selectlanguage{spanish}\n\\usepackage{ES.macros-private}/' $INPUT
+/bin/sed -i 's/\\selectlanguage{english}/\\selectlanguage{english}\n\\usepackage{EN.macros-private}/' $INPUT
+/bin/sed -i 's/\\selectlanguage{basque}/\\selectlanguage{basque}\n\\usepackage{EU.macros-private}/' $INPUT
+/bin/sed -i 's/\\usepackage{EA3examen}/\n/' $INPUT
+
+#
+# Expandir los macros privados
+#
+/usr/bin/de-macro $INPUT
+#
+# En los fragmentos de código R insertados, que comienzan con >, eliminar este carácter (perturbará al
+# convertir a XML)
+#
+/bin/sed -i 's/^>/\n/' "$BASE-clean.$EXT"
+#
+# Recodificar de ISO-8859-1 a UTF-8
+#
+/usr/bin/recode latin1..utf8 "$BASE-clean.$EXT"
+#
+# Generar formato XML a partir de .tex
+#
+/usr/local/bin/exam2moodle.pl "$BASE-clean.$EXT"
+#
+#  Sustituciones misceláneas
+#
+/bin/sed -i 's/\$\$ *\$\$/\$\$/g'      "$BASE-clean.xml"
+/bin/sed -i 's/\\euro{}/ euro/g'       "$BASE-clean.xml"
+/bin/sed -i 's/\\uppercase//g'         "$BASE-clean.xml"
+/bin/sed -i 's/\\begin{Schunk}/\n\n/g' "$BASE-clean.xml"
+/bin/sed -i 's/\\end{Schunk}/\n\n/g'   "$BASE-clean.xml"
+/bin/sed -i 's/\\begin{Sinput}//g'     "$BASE-clean.xml"
+/bin/sed -i 's/\\end{Sinput}//g'       "$BASE-clean.xml"
+/bin/sed -i 's/\\end{Soutput}//g'       "$BASE-clean.xml"
+/bin/sed -i 's/\\begin{Soutput}//g'     "$BASE-clean.xml"
+/bin/sed -i 's/\&/\&amp;/g'            "$BASE-clean.xml"
+/bin/sed -i 's/0<x<1/0 \&lt; x \&lt; 1 /g'            "$BASE-clean.xml"
+/bin/sed -i 's/ < / \&lt; /g' "$BASE-clean.xml"
+/bin/sed -i 's/ > / \&gt; /g' "$BASE-clean.xml"
+/bin/sed -i 's/\\noindent//g' "$BASE-clean.xml"
+/bin/sed -i 's/\\texttt//g' "$BASE-clean.xml"
