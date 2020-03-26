@@ -86,6 +86,18 @@ por cada idioma en la lista 'prefijos'"
   (set-buffer newbuf)
   )
 
+(defun TeX2Moodle ()
+  "Procesa .tex para convertir a .xml"
+  (interactive)
+  (shell-command
+   (format "moodleiza %s "
+	   (shell-quote-argument (buffer-file-name))))
+  (setq newbuf (replace-regexp-in-string ".tex" "-clean.xml" (buffer-file-name)))
+  (find-file newbuf)
+  (set-buffer newbuf)
+  )
+
+
 (defun crear-versiones (prefijos)
   "Procesa .tex para crear distintas versiones"
   (interactive "*p")
@@ -209,7 +221,13 @@ por cada idioma en la lista 'prefijos'"
 	      :help "Crea versiones .tex de todos los idomas selecccionados")
   )
 
-(define-key menu-x [j] '(menu-item "--"))
+(define-key menu-x [k] '(menu-item "--"))
+
+(define-key menu-x [j]
+  `(menu-item "Moodleiza ( .tex -> .xml)" TeX2Moodle
+	      :help "Procesa .tex para generar .xml")
+  )
+
 (define-key menu-x [hg]
   `(menu-item ".Rnw -> .tex" Rnw2TeX
 	      :help "Procesa .Rnw para generar .tex")
