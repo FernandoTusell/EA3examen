@@ -1,3 +1,4 @@
+% -*- coding: iso-8859-15 -*-
 \documentclass[10pt,a4paper,twocolumn]{examdesign}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}  %  latin1, utf8 o lo que se desee.

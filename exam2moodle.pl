@@ -1,6 +1,9 @@
 #!/usr/bin/perl
 # Proceso de ficheros examdesign + EA3 --> Moodle XML
-# (C) F. Tusell, Mayo 2008. Copia y modifica a tu antojo.
+# Primera versión 2008, ampliado durante el confinamiento 2020.
+# Versión de 2021 incorpora bloques vía cloze
+#
+# (C) F. Tusell, 2021. Copia y modifica a tu antojo.
 
 if (!@ARGV) {                                  # Leer todos los nombres de fichero pasados
   @ARGV = <STDIN> ;                            # como argumento.
@@ -19,6 +22,13 @@ for (@ARGV) {
   print OUT "<quiz>", "\n" ;
   $numpreg = 0 ;
   while(<IN>) {
+      if ($_ =~ /^%%%cat: (.*) %%%$/ ) {       # Categoría de la pregunta.
+	  $linea = $1 ;
+	  chomp $linea ;
+	  print OUT "<question type=\"category\"><category><text>\$course\$/" ;
+	  print OUT $linea ;
+	  print OUT "</text></category></question> ","\n"
+      }
       if ($_ =~ /^\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
 	  $enunciado = " " ;                   #  inicializa un contenedor de enunciado.
 	  $estado = "InteriorPregunta" ;
@@ -52,7 +62,7 @@ for (@ARGV) {
       }
       elsif ($_ =~ /.*\\choice\{(.*)\s*$/) {
 	  $linea = $1 ;
-	  $linea =~ s/\$/\$\$/g ;
+	  # $linea =~ s/\$/\$\$/g ;
 	  $linea = "<answer fraction=\"0\" format=\"html\">\n<text>".$linea ;
       }
       elsif ($_ =~ /^\s*\}\s*$/) {
@@ -72,7 +82,7 @@ for (@ARGV) {
       if ($estado eq "InteriorPregunta") {
 	  if ($noblanca) {
 	      $linea =~ s/\$/\$\$/g ;
-	      print OUT $linea, "\n" ;
+	      print OUT $linea ;
 	  }
       }
 

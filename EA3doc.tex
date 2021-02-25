@@ -417,6 +417,8 @@ para indicar ``independientes y con idéntica distribución''.
 
 \subsection{Ex-novo}
 
+\subsubsection{Paquete \LaTeX2e{} \texttt{moodle}.}
+
 Si se puede partir desde cero, la forma más simple que he encontrado
 consiste en emplear un formato distinto a \texttt{examdesign} junto
 con el paquete \texttt{moodle}\footnote{Ver
@@ -460,6 +462,19 @@ importarse en Moodle empleando la opción de importación en XML.
 secciones precedentes para generar ficheros en distintos lenguajes;
 pero no podemos emplear \texttt{examdesign} ni los macros en
 \texttt{EA3examen}, porque Moodle no los interpretará.
+
+\subsubsection{A partir de una hoja Excel}
+
+Este método será de utilidad a usuarios que no necesiten hacer gran
+uso de notación matemática y trabajen en entornos con R. Se debe a
+Randy Cragun, y puede encontrarse documentado en
+\href{https://moodle.org/pluginfile.php/134/mod_forum/attachment/1607262/MoodleQBankScript.pdf?forcedownload=1}{aquí}. El
+autor ofrece también
+\href{https://moodle.org/pluginfile.php/134/mod_forum/attachment/1607261/QExamples.xlsx?forcedownload=1}{una
+  hoja Excel con preguntas de muestra} así como
+\href{https://moodle.org/pluginfile.php/134/mod_forum/attachment/1607261/MoodleQ_2020-03-17.R?forcedownload=1}{la
+  fuente del programa en R para hacer la conversión.}\footnote{Todos
+  los enlaces visitados el 3 mayo 2020.}
 
 \subsection{A partir de exámenes pre-existentes}
 
@@ -510,7 +525,15 @@ siguiente:
   el fichero \texttt{EN.examen.tex}; debe hacerse lo propio con
   cada uno de los otros idiomas.
 
-  Este examen no debe contener bloques de cuestiones o figuras.
+  Este examen no debe contener bloques de cuestiones o figuras. Si se
+  desea agrupar cuestiones por temas en el banco de preguntas a crear
+  en Moodle, se puede emplear en Emacs el menú \textsc{EA3 -> Añadir
+    categoría} con el cursor en cualquier lugar de la cuestión que se
+  quiera categorizar. El editor entonces añade una etiqueta como
+\begin{verbatim}
+   %%%cat: Estimación máximo verosímil %%%
+\end{verbatim}
+  inmediatamente precediendo a la cuestión.
 \item Procesar el fichero \texttt{EN.examen.tex} corriendo sobre él
   el programa \texttt{moodleiza}:
 \begin{verbatim}

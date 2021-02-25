@@ -16,6 +16,16 @@
 
 (setq prefijos (mapcar (lambda(arg) (car (eval arg))) languages))
 
+(defun categoriza ()
+  "Inserta una categoría en el lugar del cursor"
+  (interactive)
+  (search-backward "begin{question}")
+  (backward-char 2)
+  (newline)
+  (insert (concat "%%%cat: " cat))
+  (insert " %%%")
+  )
+
 (defun babeliza (prefijos)
   "Babeliza línea o región.
 Toma una línea o región y añade a cada una de sus líneas un prefijo
@@ -108,11 +118,11 @@ por cada idioma en la lista 'prefijos'"
 	(end    (point-max))
 	(newbuf (replace-regexp-in-string ".Rnw" ".tex" (buffer-name)))
 	)
-  (while ver
-    (setq preservar (car ver))
-    (setq borrar (remq preservar prefijos))
-    (setq version (concat (substring preservar 0 2)
-			  (concat "." newbuf)))
+    (while ver
+      (setq preservar (car ver))
+      (setq borrar (remq preservar prefijos))
+      (setq version (concat (substring preservar 0 2)
+			    (concat "." newbuf)))
       (with-current-buffer (get-buffer-create version)
 	(save-excursion
 	  (delete-region (point-min) (point-max))
@@ -126,14 +136,14 @@ por cada idioma en la lista 'prefijos'"
 	  (let ((coding-system-for-write 'latin-1)
 		(coding-system-for-read  'latin-1))
 	    (write-region (point-min) (point-max) version nil t nil nil)
-	  (run-hooks 'LaTeX-mode-hook)
-	  (latex-mode)
-	  (find-file version))
+	    (run-hooks 'LaTeX-mode-hook)
+	    (latex-mode)
+	    (find-file version))
 	  (save-buffer)
 	  ))
-    (setq ver (cdr ver))
+      (setq ver (cdr ver))
+      )
     )
-  )
   )
 
 (defun crear-versiones-proxy()
@@ -216,6 +226,7 @@ por cada idioma en la lista 'prefijos'"
 	      :help "Añade/elimina idioma español")
   )
 
+
 (define-key menu-x [f8]
   `(menu-item "Crear versiones" crear-versiones-proxy
 	      :help "Crea versiones .tex de todos los idomas selecccionados")
@@ -248,14 +259,91 @@ por cada idioma en la lista 'prefijos'"
 	      :help "Duplica región o línea sin babelizar")
   )
 
+(defvar submenuz (make-sparse-keymap))
+(define-key menu-x [e] (cons "Añadir categoría" submenuz))
+
+(define-key submenuz [y01]
+  `(menu-item "R"  (lambda () (interactive)
+			    (setq cat "R")
+			    (categoriza)
+			    )
+	      :help "Añade categoría 'R'") )
+
+(define-key submenuz [y1]
+  `(menu-item "Muestreo"  (lambda () (interactive)
+			    (setq cat "Muestreo")
+			    (categoriza)
+			    )
+	      :help "Añade categoría 'Muestreo'") )
+
+(define-key submenuz [y2]
+  `(menu-item "Contraste hipótesis"  (lambda () (interactive)
+				       (setq cat "Contraste hipótesis")
+				       (categoriza)
+				       )
+	      :help "Añade categoría 'Contrate hipótesis'") )
+
+(define-key submenuz [y3]
+  `(menu-item "Estimación: método momentos"  (lambda () (interactive)
+					       (setq cat "Método momentos")
+					       (categoriza)
+					       )
+	      :help "Añade categoría 'Método momentos'") )
+(define-key submenuz [y4]
+  `(menu-item "Estimación: máxima  verosimilitud"  (lambda () (interactive)
+						     (setq cat "Máxima verosimilitud")
+						     (categoriza)
+						     )
+	      :help "Añade categoría 'Máxima verosimilitud'") )
+(define-key submenuz [y5]
+  `(menu-item "Estimación: propiedades estimadores"  (lambda () (interactive)
+						       (setq cat "Propiedades estimadores")
+						       (categoriza)
+						       )
+	      :help "Añade categoría 'Propiedades estimadores'") )
+(define-key submenuz [y6]
+  `(menu-item "Distribuciones: (normal, chi, t, F,...)"  (lambda () (interactive)
+							   (setq cat "Distribuciones normal, chi...")
+							   (categoriza)
+							   )
+	      :help "Añade categoría 'Distribuciones normal, chi...'") )
+
+(define-key submenuz [y61]
+  `(menu-item "Función característica"  (lambda () (interactive)
+							   (setq cat "Función característica")
+							   (categoriza)
+							   )
+	      :help "Añade categoría 'Función característica'") )
+
+(define-key submenuz [y62]
+  `(menu-item "Convergencias"  (lambda () (interactive)
+							   (setq cat "Convergencias")
+							   (categoriza)
+							   )
+	      :help "Añade categoría 'Convergencias'") )
+
+
+(define-key submenuz [y7]
+  `(menu-item "Distribuciones: Poisson"  (lambda () (interactive)
+					   (setq cat "Distribuciones: Poisson")
+					   (categoriza)
+					   )
+	      :help "Añade categoría 'Distribuciones: Poisson'") )
+(define-key submenuz [y8]
+  `(menu-item "Distribuciones: binomial"  (lambda () (interactive)
+					    (setq cat "Distribuciones: binomial")
+					    (categoriza)
+					    )
+	      :help "Añade categoría 'Distribuciones: binomial'") )
+
 (define-key menu-x [g] '(menu-item "--"))
- (defvar submenu (make-sparse-keymap))
+(defvar submenu (make-sparse-keymap))
 (define-key menu-x [d] (cons "Crear..." submenu))
 
- (define-key submenu [f4]
-   `(menu-item "Cuestión" nueva-pregunta
-	       :help "Crea una nueva pregunta vacía.")
-   )
+(define-key submenu [f4]
+  `(menu-item "Cuestión" nueva-pregunta
+	      :help "Crea una nueva pregunta vacía.")
+  )
 
 (define-key submenu [gg]
   `(menu-item "Bloque"
@@ -263,7 +351,7 @@ por cada idioma en la lista 'prefijos'"
 		(interactive)
 		(nuevo-bloque)
 		(nueva-pregunta))
-  :help "Crea un nuevo bloque con una pregunta vacía.")
+	      :help "Crea un nuevo bloque con una pregunta vacía.")
   )
 
 (define-key submenu [a]
@@ -285,13 +373,13 @@ por cada idioma en la lista 'prefijos'"
 	      :help "Crea nueva plantilla de examen. Usar sólo en buffer limpio")
   )
 
-;Define el botón "EA3" como contenedor de los demás submenús
+					;Define el botón "EA3" como contenedor de los demás submenús
 (define-key-after
-   (lookup-key global-map [menu-bar])    ;keymap is "key" menu-bar
-   [ea]                                  ;key name
-   (cons "EA3" menu-x)                 ;label. "key" is menu-x
-   'buffer                               ;After buffer button
-)
+  (lookup-key global-map [menu-bar])    ;keymap is "key" menu-bar
+  [ea]                                  ;key name
+  (cons "EA3" menu-x)                 ;label. "key" is menu-x
+  'buffer                               ;After buffer button
+  )
 
 
 ;;  (defun op (path)                        ;cd to path
@@ -304,29 +392,29 @@ por cada idioma en la lista 'prefijos'"
 ;;   )
 
 (define-skeleton nueva-pregunta
-      "Inserta una nueva pregunta en el buffer de trabajo."
-      ""
-"\\begin{question}\n\n"
-"\\choice[!]{\n "
--
-"\n}\n"
-"\\choice{  \n\n}\n"
-"\\choice{  \n\n}\n"
-"\\choice{  \n\n}\n"
-"\\choice{  \n\n}\n"
-"\\end{question}\n\n"
-)
+  "Inserta una nueva pregunta en el buffer de trabajo."
+  ""
+  "\\begin{question}\n\n"
+  "\\choice[!]{\n "
+  -
+  "\n}\n"
+  "\\choice{  \n\n}\n"
+  "\\choice{  \n\n}\n"
+  "\\choice{  \n\n}\n"
+  "\\choice{  \n\n}\n"
+  "\\end{question}\n\n"
+  )
 
 (define-skeleton nuevo-bloque
-      "Inserta un nuevo bloque en el buffer de trabajo."
-      ""
-"\\begin{block}\n"
-"\\comienzobloque\n\n"
- -
-"\n\n\\finalbloque\n"
-"\\end{block}\n"
-"\\bigskip\n"
-)
+  "Inserta un nuevo bloque en el buffer de trabajo."
+  ""
+  "\\begin{block}\n"
+  "\\comienzobloque\n\n"
+  -
+  "\n\n\\finalbloque\n"
+  "\\end{block}\n"
+  "\\bigskip\n"
+  )
 
 (add-hook 'Rnw-mode-hook
 	  (lambda ()
