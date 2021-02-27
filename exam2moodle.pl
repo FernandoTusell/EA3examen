@@ -7,20 +7,21 @@
 
 sub proceso_cuestiones_bloque {
     if ($estado eq "PreambuloBloque") {
+	$enunciado = "<P>" ;
 	  while(<IN>) {
 	      if($_ !~ /.*\\begin\{question.*$/) {
 		  $enunciado = $enunciado.$_ ;
 	      } else {
-		  last ;
 		  $estado = "FinalizadoPreambulo" ;
+		  last ;
 	      }
-	  }				       #  Hemos llegado al final del enunciado de
-					       #  una subpregunta; lo imprimimos
+	  }				       #  Hemos llegado al final del enunciado
+					       #  del preámbulo de bloque; lo imprimimos
 	  $enunciado =~ s/\$/ \$\$/g ;
-	  print OUT $enunciado, "\n" ;
+	  print OUT $enunciado, "</P>\n" ;
     }
       if ($_ =~ /^\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
-	  $enunciado = " " ;                   #  inicializa un contenedor de enunciado.
+	  $enunciado = "<P>" ;                   #  inicializa un contenedor de enunciado.
 	  $estado = "InteriorPregunta" ;
 	  while(<IN>) {
 	      if($_ !~ /.*\\choice.*$/) {
@@ -31,11 +32,11 @@ sub proceso_cuestiones_bloque {
 	  }				       #  Hemos llegado al final del enunciado de
 					       #  una subpregunta; lo imprimimos
 	  $enunciado =~ s/\$/ \$\$/g ;
-	  print OUT $enunciado, "\n" ;
-	  print OUT "</P><P>{1:MULTICHOICE_V:&&&" ;
+	  print OUT $enunciado, "</P>\n" ;
+	  print OUT "<P>{1:MULTICHOICE_V:&&&" ;
       }
 
-      if ($_ =~ /.*\\choice\[!\]\{(.*)(\}){0,1}\s*$/)  {
+      if ($_ =~ /.*\\choice\[!\]\{(.*)$/)  {
 	  $linea = $1 ;
 	  $linea =~ s/\$/\$\$/g ;
 	  print OUT "~=".$linea ;
@@ -167,7 +168,7 @@ for (@ARGV) {
 	  $estado = "PreambuloBloque" ;
       } elsif ($_ =~ /^\\end\{block\}.*$/ ) {  # ...o si salimos de él
 	  $segmento = "Sueltas" ;
-	  print OUT "</questiontext>\n<defaultgrade>1</defaultgrade>\n" ;
+	  print OUT "]]</text></questiontext>\n<defaultgrade>1</defaultgrade>\n" ;
 	  print OUT "</question>\n\n" ;
       }
       if ($segmento eq "Bloque" ) {
