@@ -5,24 +5,67 @@
 #
 # (C) F. Tusell, 2021. Copia y modifica a tu antojo.
 
-if (!@ARGV) {                                  # Leer todos los nombres de fichero pasados
-  @ARGV = <STDIN> ;                            # como argumento.
-  chop(@ARGV);
-  }
+sub proceso_cuestiones_bloque {
+      if ($_ =~ /^\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
+	  $enunciado = " " ;                   #  inicializa un contenedor de enunciado.
+	  $estado = "InteriorPregunta" ;
+	  while(<IN>) {
+	      if ($_ !~ /.*\\choice.*$/) {     #  Acumula todas las líneas subsiguientes
+		  chop ;                       #  hasta el primer \choice en el enunciado.
+		  $enunciado = $enunciado.$_ ;
+	      }
+	      else {
+		  last ;
+	      }
+	  }
+					       #  Hemos llegado al final del enunciado de
+					       #  una subpregunta; lo imprimimos
+	  $enunciado =~ s/\$/ \$\$/g ;
+	  print OUT $enunciado, "\n" ;
+	  print OUT "</P><P>{1:MULTICHOICE_V:" ;
+	  $respuestas = "&&&" ;
+      }
 
-for (@ARGV) {
-  $entrada = $_ ;                              # Para cada uno de esos nombres...
-  ($idioma,$base,$sufijo)  = split(/\./,$entrada) ;
-  $salida  = $idioma.".".$base.".xml" ;
-  open(IN,$entrada) ;                          # abrir el fichero de entrada,
-  open(OUT,">$salida") ;                       # el fichero de salida,
-					       # e iniciar el proceso de conversión.
+      if ($_ =~ /.*\\choice\[!\]\{(.*)(\}){0,1}\s*$/)  {
+	  $linea = $1 ;
+	  $linea =~ s/\$/\$\$/g ;
+	  print OUT ."~=".$linea ;
+      }
+      elsif ($_ =~ /.*\\choice\{(.*)\s*$/) {
+	  $linea = $1 ;
+	  $linea =~ s/\$/\$\$/g ;
+	  print OUT "~".$linea ;
+      }
+      elsif ($_ =~ /^\s*\}\s*$/) {
+	  # no hacemos nada
+      }
+      elsif ($_ =~ /.*\\end\{question\}.*$/ ) {
+	  print OUT  "}\n" ;
+	  $estado = "FueraPregunta" ;
+      }
+      else {
+	  $linea = $_ ;
+	  if ($linea =~ /^\s*$/)  {
+	      $noblanca = TRUE ;
+	  }
 
-  print OUT "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "\n" ;
-  print OUT "<quiz>", "\n" ;
-  $numpreg = 0 ;
-  while(<IN>) {
-      if ($_ =~ /^%%%cat: (.*) %%%$/ ) {       # Categoría de la pregunta.
+      if ($estado eq "InteriorPregunta") {
+	  if ($noblanca) {
+	      $linea =~ s/\$/\$\$/g ;
+	      print OUT $linea ;
+	  }
+	  }
+      # if ($estado eq "PreambuloBloque") {
+      #		  if ($noblanca) {
+      #		      $linea =~ s/\$/\$\$/g ;
+      #		      print OUT $linea ;
+      #		  }
+      #		  }
+      }
+}
+
+sub proceso_cuestiones_sueltas {
+  if ($_ =~ /^%%%cat: (.*) %%%$/ ) {       # Categoría de la pregunta.
 	  $linea = $1 ;
 	  chomp $linea ;
 	  print OUT "<question type=\"category\"><category><text>\$course\$/" ;
@@ -85,7 +128,44 @@ for (@ARGV) {
 	      print OUT $linea ;
 	  }
       }
+}
 
+
+if (!@ARGV) {                                  # Leer todos los nombres de fichero pasados
+  @ARGV = <STDIN> ;                            # como argumento.
+  chop(@ARGV);
+  }
+
+for (@ARGV) {
+  $entrada = $_ ;                              # Para cada uno de esos nombres...
+  ($idioma,$base,$sufijo)  = split(/\./,$entrada) ;
+  $salida  = $idioma.".".$base.".xml" ;
+  open(IN,$entrada) ;                          # abrir el fichero de entrada,
+  open(OUT,">$salida") ;                       # el fichero de salida,
+					       # e iniciar el proceso de conversión.
+
+  print OUT "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "\n" ;
+  print OUT "<quiz>", "\n" ;
+  $numpreg = 0 ;
+  $segmento = "Sueltas" ;
+  while(<IN>) {
+      if ($_ =~ /^\\begin\{block\}.*$/ ) {     # Comprobar si entramos en un bloque...
+	  $segmento = "Bloque" ;
+	  print OUT "<question type=\"cloze\">\n" ;
+	  print OUT "<name><text>".$numpreg."</text>\n" ;
+	  print OUT "<questiontext format=\"html\">\n" ;
+	  print OUT "<text><![CDATA[<p><BR/>" ;
+	  $estado = "PreambuloBloque" ;
+      } elsif ($_ =~ /^\\end\{block\}.*$/ ) {  # ...o si salimos de él
+	  $segmento = "Sueltas" ;
+	  print OUT "</questiontext>\n<defaultgrade>1</defaultgrade>\n" ;
+	  print OUT "</question>\n\n" ;
+      }
+      if ($segmento eq "Bloque" ) {
+	&proceso_cuestiones_bloque ;
+      } else {
+	&proceso_cuestiones_sueltas ;
+      }
   }
   print OUT "</quiz>", "\n" ;
   close(OUT) ;
