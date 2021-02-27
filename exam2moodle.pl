@@ -5,6 +5,12 @@
 #
 # (C) F. Tusell, 2021. Copia y modifica a tu antojo.
 
+#
+# Las cuestiones de Cloze no se rotulan, por tanto necesitamos hacerlo
+# nosotros con las etiquetas que siguen:
+
+@lab = ("&nbsp (a)", "&nbsp (b)", "&nbsp (c)", "&nbsp (d)", "&nbsp (e)") ;
+
 sub proceso_cuestiones_bloque {
     if ($estado eq "PreambuloBloque") {
 	$enunciado = "<P>" ;
@@ -33,18 +39,53 @@ sub proceso_cuestiones_bloque {
 					       #  una subpregunta; lo imprimimos
 	  $enunciado =~ s/\$/ \$\$/g ;
 	  print OUT $enunciado, "</P>\n" ;
-	  print OUT "<P>{1:MULTICHOICE_V:&&&" ;
-      }
+	  print OUT "<P>{1:MULTICHOICE_V:" ;
+	  $ilab = 0 ;                          #  Ordinal de etiqueta a poner a la siguiente
+      }                                        #  respuesta
 
-      if ($_ =~ /.*\\choice\[!\]\{(.*)$/)  {
+      if ($_ =~ /.*\\choice\[!\]\{(.*)\}$/)  {
 	  $linea = $1 ;
 	  $linea =~ s/\$/\$\$/g ;
-	  print OUT "~=".$linea ;
+	  $linea =~ s/\}/\\\}/g ;
+	  if ($ilab eq 0) {
+	      print OUT "=".$lab[$ilab].$linea ;
+	  } else {
+	      print OUT "~=".$lab[$ilab].$linea ;
+	  }
+	  $ilab++ ;
+      }
+      elsif ($_ =~ /.*\\choice\[!\]\{(.*)$/)  {
+	  $linea = $1 ;
+	  $linea =~ s/\$/\$\$/g ;
+	  $linea =~ s/\}/\\\}/g ;
+	  if ($ilab eq 0) {
+	      print OUT "=".$lab[$ilab].$linea ;
+	  } else {
+	      print OUT "~=".$lab[$ilab].$linea ;
+	  }
+	  $ilab++ ;
+    }
+     elsif ($_ =~ /.*\\choice\{(.*)\}$/) {
+	 $linea = $1 ;
+	 $linea =~ s/\$/\$\$/g ;
+	 $linea =~ s/\}/\\\}/g ;
+	 if ($ilab eq 0) {
+	     print OUT $lab[$ilab].$linea ;
+	 } else {
+	     print OUT "~".$lab[$ilab].$linea ;
+	 }
+	 $ilab++ ;
       }
       elsif ($_ =~ /.*\\choice\{(.*)\s*$/) {
 	  $linea = $1 ;
 	  $linea =~ s/\$/\$\$/g ;
-	  print OUT "~".$linea ;
+	  $linea =~ s/\}/\\\}/g ;
+	  if ($ilab eq 0) {
+	     print OUT $lab[$ilab].$linea ;
+	  } else {
+	     print OUT "~".$lab[$ilab].$linea ;
+	  }
+	  $ilab++ ;
       }
       elsif ($_ =~ /^\s*\}\s*$/) {
 	  # no hacemos nada
@@ -52,6 +93,7 @@ sub proceso_cuestiones_bloque {
       elsif ($_ =~ /.*\\end\{question\}.*$/ ) {
 	  print OUT  "}</P>\n" ;
 	  $estado = "FueraPregunta" ;
+	  $ilab = 0 ;
       }
       else {
 	  $linea = $_ ;
@@ -62,6 +104,7 @@ sub proceso_cuestiones_bloque {
       if ($estado eq "InteriorPregunta") {
 	  if ($noblanca) {
 	      $linea =~ s/\$/\$\$/g ;
+	      $linea =~ s/\}/\\\}/g ;
 	      print OUT $linea ;
 	  }
 	  }
@@ -135,6 +178,8 @@ sub proceso_cuestiones_sueltas {
       if ($estado eq "InteriorPregunta") {
 	  if ($noblanca) {
 	      $linea =~ s/\$/\$\$/g ;
+	      $linea =~ s/\}/\\\}/g ;
+
 	      print OUT $linea ;
 	  }
       }
@@ -162,13 +207,13 @@ for (@ARGV) {
       if ($_ =~ /^\\begin\{block\}.*$/ ) {     # Comprobar si entramos en un bloque...
 	  $segmento = "Bloque" ;
 	  print OUT "<question type=\"cloze\">\n" ;
-	  print OUT "<name><text>".$numpreg."</text>\n" ;
+	  print OUT "<name><text>".$numpreg."</text></name>\n" ;
 	  print OUT "<questiontext format=\"html\">\n" ;
 	  print OUT "<text><![CDATA[<p><BR/>" ;
 	  $estado = "PreambuloBloque" ;
       } elsif ($_ =~ /^\\end\{block\}.*$/ ) {  # ...o si salimos de él
 	  $segmento = "Sueltas" ;
-	  print OUT "]]</text></questiontext>\n<defaultgrade>1</defaultgrade>\n" ;
+	  print OUT "]]></text></questiontext>\n<defaultgrade>1</defaultgrade>\n" ;
 	  print OUT "</question>\n\n" ;
       }
       if ($segmento eq "Bloque" ) {
