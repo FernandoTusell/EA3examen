@@ -6,30 +6,39 @@
 # (C) F. Tusell, 2021. Copia y modifica a tu antojo.
 
 sub proceso_cuestiones_bloque {
+    if ($estado eq "PreambuloBloque") {
+	  while(<IN>) {
+	      if($_ !~ /.*\\begin\{question.*$/) {
+		  $enunciado = $enunciado.$_ ;
+	      } else {
+		  last ;
+		  $estado = "FinalizadoPreambulo" ;
+	      }
+	  }				       #  Hemos llegado al final del enunciado de
+					       #  una subpregunta; lo imprimimos
+	  $enunciado =~ s/\$/ \$\$/g ;
+	  print OUT $enunciado, "\n" ;
+    }
       if ($_ =~ /^\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
 	  $enunciado = " " ;                   #  inicializa un contenedor de enunciado.
 	  $estado = "InteriorPregunta" ;
 	  while(<IN>) {
-	      if ($_ !~ /.*\\choice.*$/) {     #  Acumula todas las líneas subsiguientes
-		  chop ;                       #  hasta el primer \choice en el enunciado.
+	      if($_ !~ /.*\\choice.*$/) {
 		  $enunciado = $enunciado.$_ ;
-	      }
-	      else {
+	      } else {
 		  last ;
 	      }
-	  }
-					       #  Hemos llegado al final del enunciado de
+	  }				       #  Hemos llegado al final del enunciado de
 					       #  una subpregunta; lo imprimimos
 	  $enunciado =~ s/\$/ \$\$/g ;
 	  print OUT $enunciado, "\n" ;
-	  print OUT "</P><P>{1:MULTICHOICE_V:" ;
-	  $respuestas = "&&&" ;
+	  print OUT "</P><P>{1:MULTICHOICE_V:&&&" ;
       }
 
       if ($_ =~ /.*\\choice\[!\]\{(.*)(\}){0,1}\s*$/)  {
 	  $linea = $1 ;
 	  $linea =~ s/\$/\$\$/g ;
-	  print OUT ."~=".$linea ;
+	  print OUT "~=".$linea ;
       }
       elsif ($_ =~ /.*\\choice\{(.*)\s*$/) {
 	  $linea = $1 ;
@@ -40,7 +49,7 @@ sub proceso_cuestiones_bloque {
 	  # no hacemos nada
       }
       elsif ($_ =~ /.*\\end\{question\}.*$/ ) {
-	  print OUT  "}\n" ;
+	  print OUT  "}</P>\n" ;
 	  $estado = "FueraPregunta" ;
       }
       else {
