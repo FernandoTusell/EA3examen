@@ -491,11 +491,6 @@ Tiene no obstante muchos inconvenientes:
 \item Emplea herramientas de software auxiliares que pueden no existir o ser
 difíciles de instalar o sustituir en Windows\footnote{Aunque son
   standard en Debian Linux, por ejemplo.}.
-\item No se pueden emplear preguntas relacionadas en bloques,
-  compartiendo un enunciado común. En Moodle cada pregunta es
-  independiente.  Puede recurrirse a copiar el enunciado común en
-  todas ellas, pero no se puede garantizar que se presenten al
-  estudiante en orden.
 \item Si se emplean macros en las cuestiones para recoger variaciones
   lingüísticas, hay que reemplazarlos antes de dar el paso de \LaTeX{}
   a XML.
@@ -503,13 +498,13 @@ difíciles de instalar o sustituir en Windows\footnote{Aunque son
   admitirá otra cosa.
 \item No podremos emplear la ventaja de incluir figuras generadas ``al
   vuelo'' mediante la inclusión de código R en el fichero
-  \texttt{.Rnw}, ni tampoco código. En particular, el símbolo
+  \texttt{.Rnw}, ni tampoco (en algunos casos) código. En particular, el símbolo
   \texttt{<} no será utilizable en una expresión como
 \begin{verbatim}
      a <- 4
 \end{verbatim}
   porque en XML los caracteres \texttt{<} y \texttt{>} tienen uso
-  especial.
+  especial. (Pero puede emplearse = en lugar de <-.)
 \item Normalmente será preciso retocar el resultado manualmente. Es un
 proceso frágil.
 \end{enumerate}
@@ -564,7 +559,7 @@ su importación directa a Moodle\footnote{El modo de realizarla sed
      }
 \end{verbatim}
   de forma que \texttt{moodleiza} pueda detectar inambiguamente el
-  comienzo y el final. Causaría un error algo como:
+  comienzo y el final. Podría causar un error algo como:
 \begin{verbatim}
      \choice{
         Texto respuesta
@@ -638,9 +633,16 @@ Las operaciones que es preciso realizar sobre el fichero
 \texttt{de-macro}
  es un programa en Python\footnote{Por
 tanto, debe existir un interprete de Python en la máquina
-en que trabajamos, algo habitual en maquinas Linux; además, ha de ser
-la versión 2. \texttt{de-macro} procede de
-\url{https://ctan.org/pkg/de-macro}}.
+en que trabajamos, algo habitual en maquinas Linux; además,
+para la versión de \texttt{de-macro} incluida en el paquete
+\texttt{texlive-extra-utils} de Debian 10 (y probablemente de
+derivadas contemporáneas, como Ubuntu, etc.) ha de ser
+la versión 2.6 o anterior. Modernamente (2021) \texttt{de-macro} ha desaparecido
+de \texttt{texlive-extra-utils} y procede directamente de
+\url{https://ctan.org/pkg/de-macro}, instalándose en máquinas Linux en
+el directorio \texttt{/usr/local/bin}. Ello hace el mantenimiento más
+difícil; a cambio se tiene la ventaja de que la versión de Python
+puede ser la 2.7 ó la 3.}.
  El output de
   \texttt{de-macro} es un fichero de nombre \texttt{EN.examen-clean.tex}.
 \item Convertir el fichero  \texttt{EN.examen-clean.tex} a codificación
@@ -691,6 +693,13 @@ la versión 2. \texttt{de-macro} procede de
   fichero es el que se importa por Moodle, comprobando
   primero\footnote{Con Emacs, por ejemplo.} la inexistencia de errores
   sintácticos, en presencia de los cuales la importación fallaría.
+
+  Es de notar que el output que produce \texttt{exam2moodle} tiene muy
+  mal aspecto. En particular, tiene que saltar sobre peculiaridades
+  del formato Cloze en Moodle, que hace que en algunos contextos ---no
+  en todos--- el caracter \} deba escaparse en las fórmulas en \LaTeX,
+  reemplazándolo por $\backslash\}$.
+  (Curiosamente, \{ no lo requiere.)
 \end{enumerate}
 
 \section{Licencias}
@@ -699,6 +708,11 @@ autores, licenciados en diferentes términos.
 \texttt{moodleiza} y \texttt{exam2moodle.pl} son de fuente
 libre bajo licencia GPL, y pueden obtenerse del repositorio GitHub
 mencionado más arriba.
+
+Cualesquiera adiciones y mejoras, se ruega se suban como ``pull
+requests'' a dicho repositorio, para su eventual integración y
+beneficio de todos los usuarios.
+
 \newpage
 \printindex
 
