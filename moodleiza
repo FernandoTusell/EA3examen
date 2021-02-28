@@ -3,6 +3,10 @@ INPUT=$1
 BASE=${INPUT%.*}
 EXT=${INPUT##*.}
 MACROSDIR=/usr/local/share/texmf/tex/latex
+echo $INPUT
+echo $BASE
+echo $EXT
+
 #
 #  Crear vínculos a los macros necesarios
 #
@@ -20,7 +24,7 @@ MACROSDIR=/usr/local/share/texmf/tex/latex
 #
 # Expandir los macros privados
 #
-/usr/bin/de-macro $INPUT
+/usr/local/bin/de-macro $INPUT
 #
 # En los fragmentos de código R insertados, que comienzan con >, eliminar este carácter (perturbará al
 # convertir a XML)
@@ -33,6 +37,7 @@ MACROSDIR=/usr/local/share/texmf/tex/latex
 #
 # Generar formato XML a partir de .tex
 #
+echo "$BASE-clean.$EXT"
 /usr/local/bin/exam2moodle.pl "$BASE-clean.$EXT"
 #
 #  Sustituciones misceláneas
@@ -40,6 +45,7 @@ MACROSDIR=/usr/local/share/texmf/tex/latex
 /bin/sed -i 's/\$\$ *\$\$/\$\$/g'      "$BASE-clean.xml"
 /bin/sed -i 's/\\euro{}/ euro/g'       "$BASE-clean.xml"
 /bin/sed -i 's/\\uppercase//g'         "$BASE-clean.xml"
+/bin/sed -i 's/\\comienzobloque//g'    "$BASE-clean.xml"
 /bin/sed -i 's/\\begin{Schunk}/\n\n/g' "$BASE-clean.xml"
 /bin/sed -i 's/\\end{Schunk}/\n\n/g'   "$BASE-clean.xml"
 /bin/sed -i 's/\&/\&amp;/g'            "$BASE-clean.xml"

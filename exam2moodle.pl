@@ -9,7 +9,8 @@
 # Las cuestiones de Cloze no se rotulan, por tanto necesitamos hacerlo
 # nosotros con las etiquetas que siguen:
 
-@lab = ("&nbsp (a)", "&nbsp (b)", "&nbsp (c)", "&nbsp (d)", "&nbsp (e)") ;
+@lab = ("&nbsp (a) &nbsp ", "&nbsp (b) &nbsp  ", "&nbsp (c)  &nbsp ", "&nbsp (d)  &nbsp ", "&nbsp (e) &nbsp  ") ;
+
 
 sub proceso_cuestiones_bloque {
     if ($estado eq "PreambuloBloque") {
@@ -23,14 +24,14 @@ sub proceso_cuestiones_bloque {
 	      }
 	  }				       #  Hemos llegado al final del enunciado
 					       #  del preámbulo de bloque; lo imprimimos
-	  $enunciado =~ s/\$/ \$\$/g ;
-	  print OUT $enunciado, "</P>\n" ;
+	$enunciado =~ s/\$/ \$\$/g ;
+	print OUT $enunciado, "</P>\n" ;
     }
-      if ($_ =~ /^\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
+      if ($_ =~ /^\s*\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
 	  $enunciado = "<P>" ;                   #  inicializa un contenedor de enunciado.
 	  $estado = "InteriorPregunta" ;
 	  while(<IN>) {
-	      if($_ !~ /.*\\choice.*$/) {
+	      if($_ !~ /\s*\\choice.*$/) {
 		  $enunciado = $enunciado.$_ ;
 	      } else {
 		  last ;
@@ -38,12 +39,12 @@ sub proceso_cuestiones_bloque {
 	  }				       #  Hemos llegado al final del enunciado de
 					       #  una subpregunta; lo imprimimos
 	  $enunciado =~ s/\$/ \$\$/g ;
-	  print OUT $enunciado, "</P>\n" ;
-	  print OUT "<P>{1:MULTICHOICE_V:" ;
+	  print OUT $enunciado, "\n" ;
+	  print OUT "{1:MULTICHOICE_V:" ;
 	  $ilab = 0 ;                          #  Ordinal de etiqueta a poner a la siguiente
       }                                        #  respuesta
 
-      if ($_ =~ /.*\\choice\[!\]\{(.*)\}$/)  {
+      if ($_ =~ /\s*\\choice\[!\]\{(.*)\}$/)  {
 	  $linea = $1 ;
 	  $linea =~ s/\$/\$\$/g ;
 	  $linea =~ s/\}/\\\}/g ;
@@ -90,8 +91,8 @@ sub proceso_cuestiones_bloque {
       elsif ($_ =~ /^\s*\}\s*$/) {
 	  # no hacemos nada
       }
-      elsif ($_ =~ /.*\\end\{question\}.*$/ ) {
-	  print OUT  "}</P>\n" ;
+      elsif ($_ =~ /\s*\\end\{question\}.*$/ ) {
+	  print OUT  "}\n" ;
 	  $estado = "FueraPregunta" ;
 	  $ilab = 0 ;
       }
@@ -125,7 +126,7 @@ sub proceso_cuestiones_sueltas {
 	  print OUT $linea ;
 	  print OUT "</text></category></question> ","\n"
       }
-      if ($_ =~ /^\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
+      if ($_ =~ /^\s*\\begin\{question\}.*$/ ) {  #  Si es una línea de comienzo de pregunta,
 	  $enunciado = " " ;                   #  inicializa un contenedor de enunciado.
 	  $estado = "InteriorPregunta" ;
 	  while(<IN>) {
@@ -164,7 +165,7 @@ sub proceso_cuestiones_sueltas {
       elsif ($_ =~ /^\s*\}\s*$/) {
 	  $linea = "</text>\n</answer>" ;
       }
-      elsif ($_ =~ /.*\\end\{question\}.*$/ ) {
+      elsif ($_ =~ /\s*\\end\{question\}.*$/ ) {
 	  $linea = "</question>";
 	  print OUT $linea, "\n\n" ;
 	  $estado = "FueraPregunta" ;
@@ -178,8 +179,6 @@ sub proceso_cuestiones_sueltas {
       if ($estado eq "InteriorPregunta") {
 	  if ($noblanca) {
 	      $linea =~ s/\$/\$\$/g ;
-	      $linea =~ s/\}/\\\}/g ;
-
 	      print OUT $linea ;
 	  }
       }
@@ -204,14 +203,14 @@ for (@ARGV) {
   $numpreg = 0 ;
   $segmento = "Sueltas" ;
   while(<IN>) {
-      if ($_ =~ /^\\begin\{block\}.*$/ ) {     # Comprobar si entramos en un bloque...
+      if ($_ =~ /^\s*\\begin\{block\}.*$/ ) {     # Comprobar si entramos en un bloque...
 	  $segmento = "Bloque" ;
 	  print OUT "<question type=\"cloze\">\n" ;
 	  print OUT "<name><text>".$numpreg."</text></name>\n" ;
 	  print OUT "<questiontext format=\"html\">\n" ;
 	  print OUT "<text><![CDATA[<p><BR/>" ;
 	  $estado = "PreambuloBloque" ;
-      } elsif ($_ =~ /^\\end\{block\}.*$/ ) {  # ...o si salimos de él
+      } elsif ($_ =~ /^\s*\\end\{block\}.*$/ ) {  # ...o si salimos de él
 	  $segmento = "Sueltas" ;
 	  print OUT "]]></text></questiontext>\n<defaultgrade>1</defaultgrade>\n" ;
 	  print OUT "</question>\n\n" ;
