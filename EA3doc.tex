@@ -549,6 +549,7 @@ su importación directa a Moodle\footnote{El modo de realizarla sed
   generen a partir del mismo.
 \end{enumerate}
 
+\index{Moodle!moodleiza@\texttt{moodleiza}}
 \noindent El programa \texttt{moodleiza} invoca otros varios, que deben
   estar instalados y hace implícitamente supuestos sobre la fuente. En
   particular, las respuestas deben estar en el modo en que las inserta
@@ -622,8 +623,8 @@ Las operaciones que es preciso realizar sobre el fichero
   fichero se efectúa examinando la configuración del paquete
   \texttt{babel} (en particular, la línea \verb|\selectlanguage{<idioma>}|).
 
-
-
+  \index{macros!privados!sustitución mediante \texttt{de-macro}}
+  \index{de-macro@\texttt{de-macro}}
   A continuación se ejecuta:
 \begin{verbatim}
      de-macro  EN.examen
@@ -644,7 +645,11 @@ el directorio \texttt{/usr/local/bin}. Ello hace el mantenimiento más
 difícil; a cambio se tiene la ventaja de que la versión de Python
 puede ser la 2.7 ó la 3.}.
  El output de
-  \texttt{de-macro} es un fichero de nombre \texttt{EN.examen-clean.tex}.
+  \texttt{de-macro} es un fichero de nombre
+  \texttt{EN.examen-clean.tex}.
+\index{codificación!ISO-8859-1}
+\index{codificación!UTF-8}
+\index{codificación!uso\@recode}
 \item Convertir el fichero  \texttt{EN.examen-clean.tex} a codificación
   UTF-8 si la original era otra (supondremos en lo que sigue que
   era ISO-8859-1, también conocida como \texttt{latin1}).
@@ -677,6 +682,7 @@ puede ser la 2.7 ó la 3.}.
 % \usepackage[utf8]{inputenc}
 % \end{verbatim}
 
+
 \item Correr el programa \texttt{exam2moodle.pl} sobre el fichero
   \texttt{EN.examen-clean.tex} obtenido en el paso
   precedente\footnote{\texttt{exam2moodle.pl} es un programa muy
@@ -702,20 +708,87 @@ puede ser la 2.7 ó la 3.}.
   (Curiosamente, \{ no lo requiere.)
 \end{enumerate}
 
+\newpage
+\section{Normas de estilo}
+
+\subsection{Uso de unidades}
+
+\paragraph{En euskera:}
+\paragraph{En español:} Las unidades se escriben sin punto al final cuando se emplea el nombre
+abreviado, y no tienen plural: cl, kg, t por centilitro, kilogramo,
+tonelada. (ver \cite{ramoneda-98}, p.~322).
+\paragraph{En inglés:} La misma regla prevalece en inglés.
+(ver \cite{Chicago:14}, \S~8.15)
+\medskip
+
+En derogación parcial de la norma anterior, tanto en español como en
+inglés prevalece el convenio de emplear abreviaturas de unidades con
+mayúsculas cuanto derivan del nombre propio de personas: A por amperio
+(Ampère), Hz por hertzio (Hertz), V por voltio (Volta), C para la
+escala centígrada y F para la escala Farenheit (Celsius, Farenheit),
+etc.
+
+En español e inglés, al menos, las abreviaturas de unidades se emplean
+únicamente con magnitudes expresadas numéricamente: 5~gr, 6~kg, 3~t,
+pero no cinco gr, seis kg, siete t.
+
+No se permite que la cifra y la abreviatura de unidad queden en
+diferente línea. Para evitarlo puede utilizarse el ``espacio
+irrompible'', \texttt{\~}, escribiendo por ejemplo \texttt{5\~{}gr} en
+lugar de \texttt{5 gr}.
+
+Aunque difícilmente será el caso en nuestros exámenes, el uso repetido
+de unidades puede hacer aconsejable el uso de paquetes especializados,
+como \href{https://ctan.org/pkg/siunitx}{siunitx}, o
+\href{https://ctan.org/pkg/siunits}{siunits,} si de lo que se trata es
+de unidades físicas. Si se trata de unidades monetarias, el paquete
+\href{https://ctan.org/pkg/currency}{currency} ayuda a mantener un
+formato consistente.
+
+\subsection{Enumeraciones}
+
+\paragraph{En euskera:}
+\paragraph{En español:}
+\paragraph{En inglés:} En enumeraciones en ``outline style'' (cada
+ítem precedido de un numeral y comenzando una línea), no se ponen
+puntos al final (\cite{Chicago:14}, \S~8.76). Así, en el caso de las
+respuestas a una cuestión escribiremos:
+\begin{enumerate}
+\item[(a)] Primera respuesta
+\item[(b)] Segunda respuesta
+  \par
+  $\vdots$
+\end{enumerate}
+en lugar de
+\begin{enumerate}
+\item[(a)] Primera respuesta.
+\item[(b)] Segunda respuesta.
+  \par
+  $\vdots$
+\end{enumerate}
+
+\newpage
 \section{Licencias}
-Todo el software mencionado es propiedad de sus
-autores, licenciados en diferentes términos.
-\texttt{moodleiza} y \texttt{exam2moodle.pl} son de fuente
-libre bajo licencia GPL, y pueden obtenerse del repositorio GitHub
+Todo el software de terceros mencionado es propiedad de sus
+autores, licenciados en diferentes términos. Es nuestra creencia que
+el uso que hacemos del mismo no infringe ningún copyright.
+
+Lo que hemos escrito nosotros
+(\texttt{moodleiza}, \texttt{exam2moodle.pl}, macros para \LaTeX2e y
+para Emacs) es de fuente
+libre bajo licencia GPL, y puede obtenerse del repositorio GitHub
 mencionado más arriba.
 
 Cualesquiera adiciones y mejoras, se ruega se suban como ``pull
 requests'' a dicho repositorio, para su eventual integración y
-beneficio de todos los usuarios.
+beneficio de otros posibles usuarios con las mismas necesidades.
 
 \newpage
 \printindex
 
+\newpage
+\bibliographystyle{abbrvnat}
+\bibliography{abrev,conjunta}
 
 \end{document}
 
