@@ -23,6 +23,8 @@
 \usetikzlibrary{shapes,arrows,shadows,babel}
 \usepackage{listings}
 \usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{eurosym}
 \input  variantes.tex
 
 %  De https://tex.stackexchange.com/questions/117943/hyperref-footnotes-and-section-ref-colors
@@ -82,7 +84,7 @@ en \LaTeX, que pueden emplearse en cualquier documento, examen o no,
 en uno o en varios idiomas.
 
 La producción de exámenes hace uso del paquete
-\texttt{examdesign}\footnote{Dsiponible en CTAN,
+\texttt{examdesign}\footnote{Disponible en CTAN,
   \url{http://mirror.ox.ac.uk/sites/ctan.org/macros/latex/contrib/examdesign/}.}.
 
 
@@ -166,7 +168,7 @@ en un idioma y el formato que se haya escogido, normalmente PDF.
 
 \path [draw, ->] (rnw.east) -- node [above] {}  (ba.175) ;
 \path [draw, ->] (tex.east) -- node [above] {}  (ba.185);
-\path [draw, ->] (ba.east)  -- node [left] {}  (EN.180);
+\path [draw, ->] (ba.east)  -- node [left]  {}  (EN.180);
 \path [draw, ->] (ba.east)  -- node [above] {}  (ES.180);
 \path [draw, ->] (ba.east)  -- node [above] {}  (EU.180);
 \path [draw, ->] (EN.east)  -- node [above] {}  (ENpdf.180);
@@ -572,6 +574,7 @@ a pesar de que ello no originaría problemas al producir el examen en
 \LaTeX.
 
 \appendix
+\newpage
 \section{Descripción de operaciones que realiza \texttt{moodleiza}.}
 
 (Esta Sección debiera ser innecesaria, pero saber las
@@ -682,7 +685,7 @@ puede ser la 2.7 ó la 3.}.
 % \usepackage[utf8]{inputenc}
 % \end{verbatim}
 
-
+\index{Moodle!exam2moodle.pl@\texttt{exam2moodle.pl}}
 \item Correr el programa \texttt{exam2moodle.pl} sobre el fichero
   \texttt{EN.examen-clean.tex} obtenido en el paso
   precedente\footnote{\texttt{exam2moodle.pl} es un programa muy
@@ -711,24 +714,31 @@ puede ser la 2.7 ó la 3.}.
 \newpage
 \section{Normas de estilo}
 
-\subsection{Uso de unidades}
+Lo fundamental es la claridad e inambigüedad. A ello ayudan una
+sintaxis y ortografía irreprochables. Adicionalmente, si podemos
+hacerlo sin complicaciones excesivas, conviene respetar las
+convenciones y prácticas establecidad en cada lengua.
 
+
+\subsection{Uso de unidades físicas}
+\index{unidades!abreviaturas}
 \paragraph{En euskera:}
 \paragraph{En español:} Las unidades se escriben sin punto al final cuando se emplea el nombre
 abreviado, y no tienen plural: cl, kg, t por centilitro, kilogramo,
 tonelada. (ver \cite{ramoneda-98}, p.~322).
-\paragraph{En inglés:} La misma regla prevalece en inglés.
-(ver \cite{Chicago:14}, \S~8.15)
-\medskip
 
-En derogación parcial de la norma anterior, tanto en español como en
-inglés prevalece el convenio de emplear abreviaturas de unidades con
+En derogación parcial de la norma anterior prevalece el convenio de emplear abreviaturas de unidades con
 mayúsculas cuanto derivan del nombre propio de personas: A por amperio
 (Ampère), Hz por hertzio (Hertz), V por voltio (Volta), C para la
 escala centígrada y F para la escala Farenheit (Celsius, Farenheit),
 etc.
 
-En español e inglés, al menos, las abreviaturas de unidades se emplean
+También se emplean mayúsculas para algunos múltiplos en el sistema
+métrico decimal que podrían confundirse (M=mega, para con confindir
+con m=mili, D=deca para distinguir de d=deci, etc.) Por algún motivo
+se escribe también con frecuencia Tm (tonelada métrica) y Hl (hectolitro).
+
+Las abreviaturas de unidades se emplean
 únicamente con magnitudes expresadas numéricamente: 5~gr, 6~kg, 3~t,
 pero no cinco gr, seis kg, siete t.
 
@@ -737,18 +747,50 @@ diferente línea. Para evitarlo puede utilizarse el ``espacio
 irrompible'', \texttt{\~}, escribiendo por ejemplo \texttt{5\~{}gr} en
 lugar de \texttt{5 gr}.
 
+\paragraph{En inglés:} La misma regla prevalece en inglés.
+(ver \cite{Chicago:14}, \S~8.15)
+\medskip
+
+
+
 Aunque difícilmente será el caso en nuestros exámenes, el uso repetido
 de unidades puede hacer aconsejable el uso de paquetes especializados,
 como \href{https://ctan.org/pkg/siunitx}{siunitx}, o
 \href{https://ctan.org/pkg/siunits}{siunits,} si de lo que se trata es
-de unidades físicas. Si se trata de unidades monetarias, el paquete
-\href{https://ctan.org/pkg/currency}{currency} ayuda a mantener un
-formato consistente.
+de unidades físicas.
 
-\subsection{Enumeraciones}
+\subsection{Uso de unidades monetarias}
 
 \paragraph{En euskera:}
 \paragraph{En español:}
+En el caso de unidades monetarias, cuando no se emplean símbolos
+especiales como \$, \euro{} o \pounds, las unidades se escriben
+en mayúsculas: EUR, GBP (ver
+\href{https://publications.europa.eu/code/en/en-370303.htm}{Interinstitutional
+  Style Guide}). En nuestros exámenes solo manejaremos \euro{} y sólo
+detrás de la cifra:
+
+\bigskip
+\begin{tabular}[h!]{lc@{$\Rightarrow$}cl}
+\verb|La cantidad de 30\euro...   | &&& La cantidad de 30\euro{} \\
+\end{tabular}
+\bigskip
+
+\noindent\texttt{$\backslash$euro} esta definido en el paquete \texttt{eurosym} que hay
+que cargar con un \texttt{$\backslash$usepackage\{eurosym\}}. Puede ser útil
+también en el caso de varias monedas el paquete
+\href{https://ctan.org/pkg/currency}{currency}.
+
+\paragraph{En inglés:} Son admisibles las reglas mencionadas para el
+español, aunque es convencional poner el símbolo  \pounds\ antes de
+la cifra: \pounds30, en lugar de 30\pounds.
+
+\subsection{Puntuación en enumeraciones}
+\index{puntuación!enumeraciones}
+\paragraph{En euskera:}
+\paragraph{En español:} Seguiremos el mismo criterio que en inglés, al
+menos para locuciones cortas que no sean oraciones completas. Frases
+largas o más de una parecen exigir un punto al final.
 \paragraph{En inglés:} En enumeraciones en ``outline style'' (cada
 ítem precedido de un numeral y comenzando una línea), no se ponen
 puntos al final (\cite{Chicago:14}, \S~8.76). Así, en el caso de las
@@ -767,17 +809,56 @@ en lugar de
   $\vdots$
 \end{enumerate}
 
+\subsection{Puntuación en frases conteniendo fórmulas}
+\index{puntuación!frases conteniendo fórmulas}
+\paragraph{En euskera:}
+\paragraph{En español:}
+\paragraph{En inglés:} Cuando una fórmula está sóla en una línea, la
+frase precedente no usa puntuación especial; usa la misma que
+hubiéramos empleado de escribir todo seguido ---que puede ser
+ninguna---. Por ejemplo, \cite{knuth-larrabee-roberts-89} \S~2-23
+desaconsejan el uso de {\color{red}\textbf{:}} en
+\begin{quotation}
+  We shall be interested in the subset of vectors{\color{red}\textbf{:}}
+  $$A_n = \{(a_1,\ldots,a_n) \in N^n\; |\; a_1 \ge \ldots \ge a_n\}$$
+\end{quotation}
+propugnando en cambio
+\begin{quotation}
+  We shall be interested in the subset of vectors
+  $$A_n = \{(a_1,\ldots,a_n) \in N^n\; |\, a_1 \ge \ldots \ge a_n\}$$
+\end{quotation}
+o empleando a lo sumo una coma tras ``vectors''.
+
+
+
+
+\newpage
+\section{Utilización de Emacs}
+
+Todos los macros y funciones de edición han sido escritos para Emacs,
+que es también la ``cola'' que cementa todo el procedimiento.
+
+Sobre Emacs hay muchos tutoriales y documentación on-line, fácilmente
+localizable.  Libros útiles son: \cite{Cameron-rosenblatt:91}, muy
+elemental; \cite{Stallman:97}, \cite{petersen-15}, \cite{hahn-16}, más
+completos; \cite{Glickstein:95}, \cite{Chassell:95}, más avanzados, no
+sobre uso del editor, sino sobre cómo extenderlo mediante
+programación.
+
+Entre los recursos disponibles en Internet está el excelente
+\href{https://sachachua.com/blog/}{blog de Sacha Chua}
+
+
 \newpage
 \section{Licencias}
 Todo el software de terceros mencionado es propiedad de sus
-autores, licenciados en diferentes términos. Es nuestra creencia que
+autores, licenciado en diferentes términos. Es nuestra creencia que
 el uso que hacemos del mismo no infringe ningún copyright.
 
-Lo que hemos escrito nosotros
-(\texttt{moodleiza}, \texttt{exam2moodle.pl}, macros para \LaTeX2e y
-para Emacs) es de fuente
-libre bajo licencia GPL, y puede obtenerse del repositorio GitHub
-mencionado más arriba.
+Lo que hemos escrito nosotros (\texttt{moodleiza},
+\texttt{exam2moodle.pl}, macros para \LaTeX2e y para Emacs) es de
+fuente libre bajo licencia GPL, y puede obtenerse del repositorio
+GitHub mencionado más arriba.
 
 Cualesquiera adiciones y mejoras, se ruega se suban como ``pull
 requests'' a dicho repositorio, para su eventual integración y

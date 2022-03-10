@@ -107,6 +107,17 @@ por cada idioma en la lista 'prefijos'"
   (set-buffer newbuf)
   )
 
+(defun desglose-preguntas ()
+  "Examina la fuente .Rnw de un examen y proporciona desglose temático"
+  (interactive)
+  (shell-command
+   (format "desglosa %s "
+	   (shell-quote-argument (buffer-file-name))))
+  (setq newbuf (replace-regexp-in-string ".Rnw" "-desglose.txt" (buffer-file-name)))
+  (find-file newbuf)
+  (set-buffer newbuf)
+  )
+
 
 (defun crear-versiones (prefijos)
   "Procesa .tex para crear distintas versiones"
@@ -230,6 +241,11 @@ por cada idioma en la lista 'prefijos'"
 (define-key menu-x [f8]
   `(menu-item "Crear versiones" crear-versiones-proxy
 	      :help "Crea versiones .tex de todos los idomas selecccionados")
+  )
+
+(define-key menu-x [l]
+  `(menu-item "Desglose por temas ( .Rnw -> .txt)" desglosa-preguntas
+	      :help "Proporciona el desglose por temas de las preguntas de un examen")
   )
 
 (define-key menu-x [k] '(menu-item "--"))

@@ -10,34 +10,52 @@ EU- \usepackage[english,basque]{babel}
                                %  basque) en último lugar.
 EN- \selectlanguage{english}
 ES- \selectlanguage{spanish}
-EU- \selectlanguage{basque}    %  Parece haber un 'bug' que hace que
-                                %  esto no funcione: el lenguage activo
-                                %  es en todo caso el señalado en
-                                %  último lugar en el \usepackage[...]{babel}
+EU- \selectlanguage{basque}
+                               %  esto no funcione: el lenguage activo
+                               %  es en todo caso el señalado en
+                               %  último lugar en el \usepackage[...]{babel}
 
-\usepackage{EA3examen}         %  Modificaciones e internacionalización del
-                                %  formato examdesign.
+
+         %  Modificaciones e internacionalización del
+                               %  formato examdesign.
+\usepackage{EA3examen}
 \usepackage{amsmath}
 \usepackage{eurosym}
 \usepackage{booktabs}          %  Para componer tablas decentes.
+\usepackage{Sweave}
+
 % \usepackage{dcolumn}         %  Encolumnado de tablas alineando el
-                                %  punto decimal.
+                               %  punto decimal.
 % \usepackage{times}
 
 %%%  Parámetros que no necesitan ser cambiados (pero pueden serlo)  %%%
 
 \setrandomseed{121464}                     % para mismos resultados
-                                            % en ejecuciones sucesivas.
+                                           % en ejecuciones sucesivas.
+\SweaveOpts{engine=R,fig=FALSE,echo=FALSE} % Opciones por omisión.
+\SweaveOpts{eps=FALSE,pdf=FALSE,split=TRUE} %
+\SweaveOpts{height=8,width=8}              % Puede usarse:
+                                           %    width=0.98\textwidth
+                                           % por ejemplo.
+<<echo=FALSE,include=FALSE,results=hide>>=
+options(prompt="\t", continue="\t      ")
+set.seed(1234)
+cat(" ")
+@
+
+\def\gt{>}
+\def\lt{<}
+
 %%%  Parámetros que DEBEN ser adecuados por el usuario  %%%%%%%%%%%%%%%
 \asignatura{
 EN- Statistics Applied\\[2mm] to Economics}
 ES- Estadística Aplicada a\\[2mm] la Economía}
 EU- Ekonomiari Aplikatutako\\[2mm] Estatistika}
 \examname{
-EN- }
-ES- }
-EU- 1. Partziala, 2015eko martxoak 6}
-\NumberOfVersions{1}                       % Número de modelos distintos
+EN- Quiz, March, 17, 2022}
+ES- Parcial, 17 marzo 2022 }
+EU- Partziala, 2022ko martxoak 17}
+% \NumberOfVersions{4}                       % Número de modelos distintos
 % \iflanguage{spanish}{\decimalcomma}{}    % ...o coma decimal. Sólo
 ES-\iflanguage{spanish}{\decimalpoint}{}   % puede emplearse con español
 % EU-\iflanguage{basque}{\decimalpoint}{}  % o euskera activados.
@@ -62,19 +80,22 @@ EU- JARRAIBIDEAK}
 \item
 EN- Correctly answered questions give one point.
 EN- There is only one correct answer to each question.
-EN- Questions not correctly answered carry a penalty of $-0.20$ points,
-EN- so it is better to leave a question  unanswered rather than giving
-EN- a wrong answer.
+EN- Questions not correctly answered \textbf{do not carry any penalty}.
 %
 ES- Respuestas correctas otorgan un punto.
 ES- Hay una única respuesta correcta para cada pregunta.
-ES- Las respuestas incorrectas penalizan con  $-0.20$ puntos.
-ES- Es mejor dejar una pregunta sin contestar que dar una respuesta incorrecta.
+ES- Las respuestas incorrectas \textbf{no penalizan.}
 %
 EU- Erantzun zuzenek puntu bat balio dute.
 EU- Galdera bakoitzean erantzun zuzen bakarra dago.
-EU- Okerreko erantzunek $-0.20$ puntuko penalizazioa dute,
-EU- beraz hobe da ez erantzutea, oker erantzutea baino.
+EU- Erantzun okerrengatik  \textbf{ez da punturik kentzen.}
+\begin{center}
+\large
+EN- \fbox{\textbf{Answer every question, leave no blanks!}}
+ES- \fbox{\textbf{¡Responde a todo, no dejes nada en blanco!}}
+EU- \fbox{\textbf{Erantzun galdera guztiak, ez ezazu bat ere zuriz utzi!}}
+\normalsize
+\end{center}
 \item
 EN- Our goal is to gauge your understanding and command of concepts
 EN- learned during the course, not your visual sharpness. It is
@@ -90,34 +111,36 @@ ES- examen de elección múltiple hay que prestar mucha atención a los detalles.
 ES- Es frecuente que estudiantes bien preparados echen a perder una buena nota
 ES- por prestar insuficiente atención a los enunciados.
 %
-EU- Gure helburua da baloratzea noraino ulertzen eta menperatzen diren ikasitako
-EU- kontzeptuak, gure helburua ez da baloratzea zure zorroztasun bisuala. Hala ere,
-EU- aukera anitzeko azterketa batean inportantea da kasu egitea detaileei.
+EU- Gure helburua ikasitako kontzeptuak noraino ulertzen eta menperatzen diren baloratzea da,
+EU- ez zure zorroztasun bisuala baloratzea. Hala ere,
+EU- aukera anitzeko azterketa batean garrantzitsua da xehetasunei erreparatzea.
 EU- Horregatik funtsezkoa da, emaitza ona lortzeko, galderen enuntziatuak
-EU- atentzio handiz irakurtzea.
-\begin{center}
-\large
-EN- \fbox{\textbf{Please, do yourself a favour and read carefully before you answer!}}
-ES- \fbox{\textbf{¡Por favor, lee con mucha atención antes de contestar!}}
-EU- \fbox{\textbf{Mesedez, erantzun baino lehen, irakurri galderak arretaz!}}
-\normalsize
-\end{center}
+EU- arreta handiz irakurtzea.
+
+EN- Please, do yourself a favour and read carefully before you answer!
+ES- ¡Por favor, lee con mucha atención antes de contestar!
+EU- Mesedez, erantzun baino lehen, irakurri galderak arretaz!
+
 \item
 EN- It will probably help you to discard first answers that are clearly inadequate.
 ES- Probablemente te ayudará descartar primero respuestas claramente inadecuadas.
 EU- Argi eta garbi okerrak diren erantzunak lehenengo baztertzea lagungarria izango zaizu.
 \item
-EN- Students scoring
-ES- Estudiantes con
-EU- Azterketa honetan
- 19.6
-EN- or more points in this exam get full points towards their final grade.
-ES- o más puntos en este examen obtienen el total de puntos para su nota final.
-EU- puntu edo gehiago lortzen badira azterketaren puntu guztiak lortzen dira.
+EN- Points $P$ earned in the exam in a scale of 100 are computed as:
+EU- Azterketako $P$ puntuazioa 100eko eskala batean ondoko eran kalkulatzen da:
+ES- La puntuación $P$ del examen, en una escala de 100 se calcula así:
+\[ P = \frac{C-5}{25} \times 100 \]
+EN- where $C$ is the number of correct answers.
+EU- non $C$ erantzun zuzen kopurua den.
+ES- en que $C$ es el número de respuestas correctas.
 \item
-EN- The time scheduled for this exam is 1:20h.
-ES- El tiempo previsto para este examen es 1:20h.
-EU- Azterketa honen iraupena  1:20 da.
+EN- Points $P$ in excess of 70 are promoted to 100.
+EU- 70etik gorako puntuazioak 100era sustatzen dira.
+ES- Puntuaciones $P$ excediendo 70 se promueven a 100.
+\item
+EN- The time scheduled for this exam is 1:45h.
+ES- El tiempo previsto para este examen es 1:45h.
+EU- Azterketa honen iraupena  1:45 ordukoa da.
 \end{enumerate}
 \vfill
 EN- \hfill\textbf{Do not turn the page until advised to do so!}\par
@@ -131,7 +154,6 @@ EU- \hfill\textbf{Markatu ORAIN zein den zure azterketa-mota erantzunen orrialde
 \par
 \end{frontmatter}
 
-\hyphenation{ge-ne-ra-triz}
 \begin{multiplechoice}[title={\eleccionmultiple},resetcounter=yes]
 \begin{question}
 EN- The capital city of Spain is:
